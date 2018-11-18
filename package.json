@@ -45,5 +45,5 @@
     "jquery": "^3.3.1",
     "nw": "^0.34.4"
   },
-  "scripts": {"postinstall": "xcopy node_modules\\ASF_MCE .\\ /s /y"}
+  "scripts": {"postinstall": "echo $cd$"}
 }
