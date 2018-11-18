@@ -1,0 +1,1 @@
+start .\node_modules\nw\nwjs\nw.exe "%cd%"

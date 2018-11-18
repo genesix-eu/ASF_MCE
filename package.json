@@ -1,6 +1,6 @@
 {
   "main": "index.html",
-  "name": "ASF MCE",
+  "name": "ASF_MCE",
   "description": "gene_asd_edit",
   "version": "0.0.3",
   "keywords": [
@@ -10,7 +10,7 @@
   ],
   "chromium-args": " --user-data-dir='./data/temp'",
   "window": {
-    "title": "ASF Mass Config Editor",
+    "title": "ASF MCE",
     "icon": "img/app-draw.png",
     "as_desktop": false,
     "toolbar": true,
@@ -42,6 +42,7 @@
   ],
   "dependencies": {
     "bootstrap": "^4.1.3",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "nw": "^0.34.4"
   }
 }

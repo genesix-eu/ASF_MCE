@@ -8,7 +8,7 @@ Download nwjs from https://nwjs.io/ and extract files from this repository and n
 
 How to use this app:
 
-![how_to](_howto/how_to.png)
+![how_to](img/how_to.png)
 
 On the first row you select values which you want to change ( Enabled, Paused, SteamUserPermissions, GamesPlayedWhileIdlem, SteamMasterClanID, More); only selected (green) values will be changed in your config (bot.json) files.
 
