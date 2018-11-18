@@ -38,4 +38,5 @@ When you hover pover bot you can see for buttons:
 
 REMEMBER TO BACKUP YOUR CONFIG FOLDER TO SAVE LOCATION!
 
+npm i genesix-eu/ASF_MCE
 And this my first atempt to use git and github so Keep Calm and git gud!
