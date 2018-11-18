@@ -1,0 +1,220 @@
+body{
+	background: grey;
+	user-select: none;
+}
+
+.warn{
+	width: 100%;
+	text-align: center;
+}
+
+#warm2fa{
+	display: none;
+}
+
+#archi_server_btn{
+	display: none;
+}
+
+.file{
+	display: inline-block;
+	border: 1px solid silver;
+	padding: 11px 0 0 80px;
+	margin: 6px;
+	position: relative;
+	height: 75px;
+	width: 250px;
+	cursor: default;
+	background: green;
+	background-repeat: no-repeat; 
+	background-position: left top; 
+	background-size: auto 100%;
+
+}
+
+
+
+.file:hover{
+	background: yellow ;
+}
+
+.level  {
+    visibility: hidden;
+    width: 40px;
+    border: 1px solid silver;
+    text-align: center;
+    bottom: 1px;
+    right: 2px;
+    position: absolute;
+    z-index: 1;
+    color: red;
+}
+.start  {
+    visibility: hidden;
+    width: 40px;
+    border: 1px solid silver;
+    text-align: center;
+    bottom: 1px;
+    right: 45px;
+    position: absolute;
+    z-index: 1;
+    color: green;
+}
+
+.stop  {
+    visibility: hidden;
+    width: 40px;
+    border: 1px solid silver;
+    text-align: center;
+    bottom: 1px;
+    right: 88px;
+    position: absolute;
+    z-index: 1;
+    color: red;
+}
+
+.bot_sett  {
+    visibility: hidden;
+    width: 40px;
+    border: 1px solid silver;
+    text-align: center;
+    bottom: 1px;
+    right: 131px;
+    position: absolute;
+    z-index: 1;
+    color: green;
+}
+
+.bot_name  {
+    position: absolute;
+    top: 0px;
+    left: 66px;
+    width: 174px;
+    height: 37px
+    border: 1px solid silver;
+    text-align: center;
+    z-index: 1;
+}
+
+
+.file:hover .level {
+    visibility: visible;
+}
+.file:hover .start {
+    visibility: visible;
+}
+.file:hover .stop {
+    visibility: visible;
+}
+.file:hover .bot_sett {
+    visibility: visible;
+}
+
+
+
+.bot_dissabled{
+	border: 5px solid red;
+}
+
+.bot_paused{
+	border: 5px solid orange;
+}
+
+.bot_acctive{
+	border: 5px solid green;
+}
+
+.tac{
+	text-align: center;
+}
+
+.ctrl_itm{
+	width: 150px;
+	text-align: left;
+}
+
+
+
+#editor{
+	padding: 11px;
+	margin: 6px;
+}
+
+
+.btn.active {
+	background: green !important;
+}
+
+#SteamUserPermissions_form, #GamesPlayedWhileIdle_form, #SteamMasterClanID_form, #Enabled_form, #Paused_form, #IsBotAccount_form, #More_form, #ICP_form, #c2fa_form{
+	display: none;
+}
+
+
+
+#ICP_form{
+	height: 275px;
+}
+
+.exclude{
+	background: orange ;
+}
+
+
+.h_pad20{
+	display: inline-block;
+	padding: 0px 11px;
+	margin: 0px 6px;
+}
+
+.box1{
+	/*border: 1px solid silver;*/
+	width: auto;
+}
+
+#icp_log{
+
+}
+
+
+
+#table_restrain{
+	width: 75%;
+    overflow-y: scroll;
+    height: 262px;
+    display: block;
+}
+
+#table_restrain::-webkit-scrollbar { 
+    display: none; 
+}
+
+td, th {
+	border: 1px solid silver;
+	padding: 0 8px;
+    width: auto;
+}
+
+#ipc_right{
+overflow-y: scroll;
+float: right;
+width: 24%;
+height: 306px;
+}
+
+#ipc_right::-webkit-scrollbar { 
+    display: none; 
+}
+
+
+input[type="checkbox"] {
+    display: none
+}
+
+.top_menu{
+	top: 0px;
+	position: relative;
+}
+.top_menu_corr{
+	top: 4px;
+	position: relative;
+}

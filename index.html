@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+
+<script src="js/main.js" type="text/javascript"></script>
+
+
+</head>
+
+<body onload="">
+
+<div id="wrapper">
+<div id="warm">
+  
+  <h2 class="alert alert-danger tac">Don't forget to backup config folder to secure location!<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></h2>
+</div>
+<div id="warm2fa">
+	
+	<h2 class="alert alert-danger tac"><span id="who2fa"></span><input type="text" id="code2fa"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></h2>
+</div>
+
+<div id="editor">
+<div class="tac">
+<div class="btn-group top_menu_corr" data-toggle="buttons">
+<!-- 	<label class="btn btn-primary btn-sm active">
+		<input type="checkbox" checked autocomplete="off"> Enabled
+	</label> -->
+	<label class="btn btn-danger btn-sm">
+		<input type="checkbox" autocomplete="off" id="Enabled"> Enabled
+	</label>
+	<label class="btn btn-danger btn-sm">
+		<input type="checkbox" autocomplete="off" id="Paused"> Paused
+	</label>
+<!-- 	<label class="btn btn-danger btn-sm">
+		<input type="checkbox" autocomplete="off" id="IsBotAccount"> IsBotAccount
+	</label> -->
+	<label class="btn btn-danger btn-sm">
+		<input type="checkbox" autocomplete="off" id="SteamUserPermissions"> SteamUserPermissions
+	</label>
+	<label class="btn btn-danger btn-sm">
+		<input type="checkbox" autocomplete="off" id="GamesPlayedWhileIdle"> GamesPlayedWhileIdle
+	</label>
+  <label class="btn btn-danger btn-sm">
+    <input type="checkbox" autocomplete="off" id="SteamMasterClanID"> SteamMasterClanID
+  </label>
+	<label class="btn btn-danger btn-sm">
+		<input type="checkbox" autocomplete="off" id="More"> More
+	</label>
+
+</div>
+
+<input class="btn btn-success btn-sm top_menu" type="button" value="Save" onclick="save_btn_pressed();">
+<button type="button" id="ignore" class="btn btn-warning btn-sm top_menu" onclick="ignore_all();">Ignore All</button>
+<button type="button" id="asf_app" class="btn btn-warning btn-sm top_menu" onclick="start_asf();">ASF</button>
+</div>
+
+<br>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span id="Enabled_form" class="box1" >Enabled:
+<div class="btn-group h_pad20" data-toggle="buttons" >
+
+  <label class="btn btn-danger active"> 
+    <input type="checkbox" name="options" id="Enabled_true" autocomplete="off" checked>True
+  </label>
+<!--   <label class="btn btn-primary">
+    <input type="radio" name="options" id="Enabled_false" autocomplete="off">False
+  </label> -->
+</div>
+</span>
+
+<span id="Paused_form" class="box1" >Paused:
+<div class="btn-group h_pad20" data-toggle="buttons" >
+  <label class="btn btn-danger active"> 
+    <input type="checkbox" name="options" id="Paused_true" autocomplete="off" checked>True
+  </label>
+<!--   <label class="btn btn-primary">
+    <input type="radio" name="options" id="Paused_false" autocomplete="off">False
+  </label> -->
+</div>
+</span>
+
+<span id="IsBotAccount_form" class="box1" >IsBotAccount:
+<div class="btn-group h_pad20" data-toggle="buttons" >
+  <label class="btn btn-danger active"> 
+    <input type="checkbox" name="options" id="IsBotAccount_true" autocomplete="off" checked>True
+  </label>
+<!--   <label class="btn btn-primary">
+    <input type="radio" name="options" id="IsBotAccount_false" autocomplete="off" >False
+  </label> -->
+</div>
+</span>
+
+
+
+
+
+
+<br>
+
+
+<div class="form-group" id="SteamUserPermissions_form">
+  <label for="comment">SteamUserPermissions:</label>
+  <textarea class="form-control" rows="3" id="SteamUserPermissions_input" placeholder="76561198116498774:3&#10;or&#10;76561198116498774:3, 76561198116561057:2, 76561198214014527:1"></textarea>
+</div>
+
+
+<div class="form-group" id="GamesPlayedWhileIdle_form">
+  <label for="comment">GamesPlayedWhileIdle:</label>
+  <textarea class="form-control" rows="3" id="GamesPlayedWhileIdle_input" placeholder="730&#10;or&#10;730, 281990, 203160"></textarea>
+</div>
+
+
+<div class="form-group" id="SteamMasterClanID_form">
+  <label for="comment">SteamMasterClanID:</label>
+  <textarea class="form-control" rows="3" id="SteamMasterClanID_input" placeholder="103582791440160998"></textarea>
+</div>
+
+
+<div class="form-group" id="More_form">
+  <label for="comment">JSON:</label>
+  <textarea class="form-control" rows="3" id="More_input" placeholder="{Valid JSON code... }"></textarea>
+</div>
+
+<div class="form-group" id="c2fa_form">
+2FA
+</div>
+
+
+
+
+
+
+</div>
+<br>
+
+
+<div id="content">
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <script type="text/javascript" src="js/contex_menu_al.js"></script> -->
+<script type="text/javascript">
+function start_prog(){
+console.log("pressed");
+
+let my_full_path = process.cwd()+"\\ASFS.lnk";
+gui.Shell.openItem(my_full_path);
+}
+</script>
+</body>
+</html>
