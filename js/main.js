@@ -51,7 +51,7 @@ setTimeout(function() {
  
 
 
-function get_bots(warn){
+function get_ipc_bots(warn){
 	var xmlhttp = new XMLHttpRequest();
   // try{
 	  xmlhttp.onreadystatechange = function() {
@@ -60,22 +60,25 @@ function get_bots(warn){
 			accounts_ASF = res.Result;
 			console.log(accounts_ASF);
       for (var key in accounts_ASF) {
-        console.log(key);
-      if (key.IsConnectedAndLoggedOn === false){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="file '+ "json" +' bot_dissabled" id="bot_'+key+'" style='+ '"' + "background-image: url('img/null.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + "!" + '</span><span class="bot_name"> '+ key +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-      else{$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file '+ "json" +' bot_acctive" id="bot_'+key+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' +  "!" + '</span><span class="bot_name"> '+ key +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-
-
+      if (key.IsConnectedAndLoggedOn === false &&  ( key !== "minimal" && key !== "example" )){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="file '+ "json" +' bot_dissabled" id="bot_'+key+'" style='+ '"' + "background-image: url('img/null.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + "!" + '</span><span class="bot_name"> '+ key +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+      else if (key !== "minimal" && key !== "example" ){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file '+ "json" +' bot_acctive" id="bot_'+key+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' +  "!" + '</span><span class="bot_name"> '+ key +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+      }
+        if ((isEmpty = Object.keys(accounts_ASF).length)){
+        
+        }else{
+        setTimeout(function(){ get_ipc_bots(false); }, 60000);
+        console.log("Again");
         }
-      setTimeout(function(){ get_bots(false); }, 60000);
 		  }
 	  };
     xmlhttp.onerror = function(e){
       if (warn===true) {error("ASF not running or ASF IPC is inaccessible!");}
-      setTimeout(function(){ get_bots(false); }, 30000);
+      setTimeout(function(){ get_ipc_bots(false); }, 30000);
       console.log("Will check for ASF IPC in 30s");
     };
 	  xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
 	  xmlhttp.send();
+
   // }catch(e){
   //   error("ASF not running or ASF IPC is inaccessible!");
   // };
@@ -83,7 +86,7 @@ function get_bots(warn){
 
 
 
-get_bots(true);
+get_ipc_bots(true);
 
 
 
@@ -373,11 +376,6 @@ function reorder(){
 }
 
 function ignore_all(){
-
-
-
-
-
 
 	if (exclude_list.length === Object.keys(accounts).length){
 		exclude_list.length = 0;

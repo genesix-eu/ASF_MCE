@@ -40,7 +40,9 @@ REMEMBER TO BACKUP YOUR CONFIG FOLDER TO SAVE LOCATION!
 
 
 git clone https://github.com/genesix-eu/ASF_MCE
+
 cd ASF_MCE
+
 npm i
 
 
