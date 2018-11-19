@@ -18,46 +18,54 @@
 <div id="wrapper">
 <div id="warm">
   
-  <h2 class="alert alert-danger tac">Don't forget to backup config folder to secure location!<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></h2>
+  <h2 id="warm_mess" class="alert alert-danger tac">Don't forget to backup config folder to secure location!<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></h2>
 </div>
 <div id="warm2fa">
-	
 	<h2 class="alert alert-danger tac"><span id="who2fa"></span><input type="text" id="code2fa"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></h2>
 </div>
 
 <div id="editor">
 <div class="tac">
-<div class="btn-group top_menu_corr" data-toggle="buttons">
+  <label class="btn btn-info btn-sm top_menu_corr">
+    Local Bots Config
+    <input type="checkbox" checked autocomplete="off" id="lbc">
+  </label>
+<div id ="lbc_form" class="btn-group top_menu_corr" data-toggle="buttons">
 <!-- 	<label class="btn btn-primary btn-sm active">
 		<input type="checkbox" checked autocomplete="off"> Enabled
 	</label> -->
-	<label class="btn btn-danger btn-sm">
+  <label class="btn btn-warning btn-sm">
 		<input type="checkbox" autocomplete="off" id="Enabled"> Enabled
 	</label>
-	<label class="btn btn-danger btn-sm">
+	<label class="btn btn-warning btn-sm">
 		<input type="checkbox" autocomplete="off" id="Paused"> Paused
 	</label>
 <!-- 	<label class="btn btn-danger btn-sm">
 		<input type="checkbox" autocomplete="off" id="IsBotAccount"> IsBotAccount
 	</label> -->
-	<label class="btn btn-danger btn-sm">
+	<label class="btn btn-warning btn-sm">
 		<input type="checkbox" autocomplete="off" id="SteamUserPermissions"> SteamUserPermissions
 	</label>
-	<label class="btn btn-danger btn-sm">
+	<label class="btn btn-warning btn-sm">
 		<input type="checkbox" autocomplete="off" id="GamesPlayedWhileIdle"> GamesPlayedWhileIdle
 	</label>
-  <label class="btn btn-danger btn-sm">
+  <label class="btn btn-warning btn-sm">
     <input type="checkbox" autocomplete="off" id="SteamMasterClanID"> SteamMasterClanID
   </label>
-	<label class="btn btn-danger btn-sm">
+	<label class="btn btn-warning btn-sm">
 		<input type="checkbox" autocomplete="off" id="More"> More
 	</label>
-
+<input id="save" class="btn btn-success btn-sm " type="button" value="Save" onclick="save_btn_pressed();">
 </div>
 
-<input class="btn btn-success btn-sm top_menu" type="button" value="Save" onclick="save_btn_pressed();">
-<button type="button" id="ignore" class="btn btn-warning btn-sm top_menu" onclick="ignore_all();">Ignore All</button>
-<button type="button" id="asf_app" class="btn btn-warning btn-sm top_menu" onclick="start_asf();">ASF</button>
+<label class="btn btn-info btn-sm top_menu_corr">
+    Selection
+    <input type="checkbox" checked autocomplete="off" id="sel">
+</label>
+<span id = "sel_form">
+  <button type="button" id="ignore" class="btn btn-warning btn-sm top_menu" onclick="ignore_all();">Ignore All</button>
+</span>
+<button type="button" id="asf_app" class="btn btn-info btn-sm top_menu" onclick="start_asf();">Start ASF</button>
 </div>
 
 <br>

@@ -37,92 +37,79 @@ jQuery.fn.sortDomElements = (function() {
 
 $(document).ready(function(){
 
-  if (user_config.no_warnings === true){
-    hide("warm");
-  }
+if (user_config.no_warnings === true){
+  hide("warm");
+}
 
+setTimeout(function(){ ignore_all(); }, 1000);
 
-    setTimeout(function(){ ignore_all(); }, 1000);
-
-
-
-
-
-  setTimeout(function() {
-    hide("warm");
-
-  }, 4000);
+setTimeout(function() {
+  hide("warm");
+}, 4000);
 
 
  
 
 
-function get_bots(){
+function get_bots(warn){
 	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
+  // try{
+	  xmlhttp.onreadystatechange = function() {
+		  if (this.readyState == 4 && this.status == 200) {
 			var res = JSON.parse(this.responseText);
 			accounts_ASF = res.Result;
 			console.log(accounts_ASF);
-		}
-	};
-	xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
-	xmlhttp.send();
+      for (var key in accounts_ASF) {
+        console.log(key);
+      if (key.IsConnectedAndLoggedOn === false){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="file '+ "json" +' bot_dissabled" id="bot_'+key+'" style='+ '"' + "background-image: url('img/null.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + "!" + '</span><span class="bot_name"> '+ key +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+      else{$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file '+ "json" +' bot_acctive" id="bot_'+key+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' +  "!" + '</span><span class="bot_name"> '+ key +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+
+
+        }
+      setTimeout(function(){ get_bots(false); }, 60000);
+		  }
+	  };
+    xmlhttp.onerror = function(e){
+      if (warn===true) {error("ASF not running or ASF IPC is inaccessible!");}
+      setTimeout(function(){ get_bots(false); }, 30000);
+      console.log("Will check for ASF IPC in 30s");
+    };
+	  xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
+	  xmlhttp.send();
+  // }catch(e){
+  //   error("ASF not running or ASF IPC is inaccessible!");
+  // };
 }
 
 
-get_bots();
+
+get_bots(true);
 
 
 
-
-
-
-
-
-fs.readdir(config_dir, function (err, files) { // '/' denotes the root folder
-	if (err) throw err;
-
-
-
+fs.readdir(config_dir, function (err, files) {
+	if (err) {error(err)}
+  console.log("ASF config folder with bots was not found!");
+  if (err) throw err;
 	files.forEach( function (file) {
-
 		if (file != undefined){
-
 			fs.lstat(config_dir+'\\'+file, function(err, stats) {
-				try {
-
 
 					var n = file.indexOf('.');
 					var just_name = file.substring(0, n != -1 ? n : n.length);
 					var ext = file.split('.').pop();
-
-					if (ext=='json' && file != "example.json" &&  file != "minimal.json" && file != "ASF.json"){
-      // console.log(file);
-      
-      var temp_name = config_dir+"\\"+file;
-      accounts[just_name] = require(temp_name);
-
-      if (accounts[just_name].Enabled === false){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'" class="file '+ ext +' bot_dissabled" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-      else if (accounts[just_name].Paused === true ){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_paused" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-      else{$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_acctive" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+  					if (ext=='json' && file != "example.json" &&  file != "minimal.json" && file != "ASF.json"){
+              var temp_name = config_dir+"\\"+file;
+              accounts[just_name] = require(temp_name);
+              if (accounts[just_name].Enabled === false){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'" class="file '+ ext +' bot_dissabled" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+              else if (accounts[just_name].Paused === true ){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_paused" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+              else{$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_acctive" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+            }
 
 
-
-      
-  }
-
-} catch (e) {
-	console.log(e);
-}
-
-
-
-
-});
+      });
 		}
-
-	});
+  });
 });
 
 
@@ -143,18 +130,12 @@ $(document).on("click", "label", function() {
 
   var status = false;
   status = document.getElementById(contrl_itm).checked;
-//console.log(contrl_itm+" is before pressed: "+status);
 
-if ( status === true && (contrl_itm === "Enabled" || contrl_itm === "Paused" || contrl_itm === "IsBotAccount" || contrl_itm === "SteamUserPermissions" || contrl_itm === "GamesPlayedWhileIdle" || contrl_itm === "SteamMasterClanID" || contrl_itm === "More" || contrl_itm === "ICP" || contrl_itm === "c2fa")){document.getElementById(contrl_itm+'_form').style.display = "none";}
-else if ( status === false && (contrl_itm === "Enabled" || contrl_itm === "Paused" || contrl_itm === "IsBotAccount")) {document.getElementById(contrl_itm+'_form').style.display = "inline-block";}
+
+if ( status === true && (contrl_itm === "sel" || contrl_itm === "lbc" || contrl_itm === "Enabled" || contrl_itm === "Paused" || contrl_itm === "IsBotAccount" || contrl_itm === "SteamUserPermissions" || contrl_itm === "GamesPlayedWhileIdle" || contrl_itm === "SteamMasterClanID" || contrl_itm === "More" || contrl_itm === "ICP" || contrl_itm === "c2fa")){document.getElementById(contrl_itm+'_form').style.display = "none";}
+else if ( status === false && (contrl_itm === "sel" || contrl_itm === "lbc" || contrl_itm === "Enabled" || contrl_itm === "Paused" || contrl_itm === "IsBotAccount")) {document.getElementById(contrl_itm+'_form').style.display = "inline-block";}
 else if ( status === false && (contrl_itm === "SteamUserPermissions" || contrl_itm === "GamesPlayedWhileIdle" || contrl_itm === "SteamMasterClanID" || contrl_itm === "More" || contrl_itm === "ICP" || contrl_itm === "c2fa")) {document.getElementById(contrl_itm+'_form').style.display = "block";}
 
-
-
-// if(status){my_value=0;}
-// else {my_value=1;}
-
-//localStorage[contrl_itm]=my_value;
 
 });
 
@@ -323,12 +304,12 @@ $(document).on("click", ".bot_sett", function() {
 	if (event.ctrlKey) {
 		let bot_name = $(this).parent().attr('data-bot-name');
 		let bot_steamID = $(this).parent().attr('data-bot-steamID') || accounts_ASF[bot_name].s_SteamID;
-		start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_bot_browser_data\\" +  bot_name  +" --window-size=1000,1000 --app=https://steamcommunity.com/profiles/"+bot_steamID);
+		start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot_name  +" --window-size=1000,1000 --app=https://steamcommunity.com/profiles/"+bot_steamID);
 	}
 	else{
 		let bot_name = $(this).parent().attr('data-bot-name');
 		let bot_steamID = $(this).parent().attr('data-bot-steamID') || accounts_ASF[bot_name].s_SteamID;
-		start_bot_sett( gui.process.execPath + " --user-data-dir=" + gui.process.cwd()+"\\_bot_browser_data\\" +  bot_name  +" --url=https://steamcommunity.com/profiles/"+bot_steamID);
+		start_bot_sett( gui.process.execPath + " --user-data-dir=" + gui.process.cwd()+"\\_data_bots\\" +  bot_name  +" --url=https://steamcommunity.com/profiles/"+bot_steamID);
 	}
 });
 
@@ -372,7 +353,11 @@ $(document).on("click", ".bot_name", function() {
 
 
 
-
+function error(message){
+  document.getElementById("warm").style.display = "block";
+  document.getElementById("warm_mess").textContent = message;
+  setTimeout(function(){ document.getElementById("warm").style.display = "none"; }, 7000);
+}
 
 
 function reorder(){

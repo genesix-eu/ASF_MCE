@@ -145,10 +145,14 @@ body{
 	background: green !important;
 }
 
-#SteamUserPermissions_form, #GamesPlayedWhileIdle_form, #SteamMasterClanID_form, #Enabled_form, #Paused_form, #IsBotAccount_form, #More_form, #ICP_form, #c2fa_form{
+#sel_form, #lbc_form, #SteamUserPermissions_form, #GamesPlayedWhileIdle_form, #SteamMasterClanID_form, #Enabled_form, #Paused_form, #IsBotAccount_form, #More_form, #ICP_form, #c2fa_form{
 	display: none;
 }
 
+#save{
+    top: -4px;
+    position: relative;
+}
 
 
 #ICP_form{

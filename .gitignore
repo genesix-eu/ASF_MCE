@@ -1,4 +1,4 @@
-data/
+_data_main/
 node_modules/
 _bot_browser_data/
 /package-lock.json

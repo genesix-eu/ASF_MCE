@@ -8,7 +8,7 @@
     "nwjs",
     "asf"
   ],
-  "chromium-args": " --user-data-dir='./data/temp'",
+  "chromium-args": " --user-data-dir='./_data_main'",
   "window": {
     "title": "ASF MCE",
     "icon": "img/app-draw.png",
