@@ -60,8 +60,25 @@ function get_ipc_bots(warn){
 			accounts_ASF = res.Result;
 			console.log(accounts_ASF);
       for (var key in accounts_ASF) {
-      if (key.IsConnectedAndLoggedOn === false &&  ( key !== "minimal" && key !== "example" )){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="file '+ "json" +' bot_dissabled" id="bot_'+key+'" style='+ '"' + "background-image: url('img/null.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + "!" + '</span><span class="bot_name"> '+ key +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-      else if (key !== "minimal" && key !== "example" ){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file '+ "json" +' bot_acctive" id="bot_'+key+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' +  "!" + '</span><span class="bot_name"> '+ key +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+      if (accounts_ASF[key].IsConnectedAndLoggedOn === false &&  ( key !== "minimal" && key !== "example" )){$('div#content').append(
+        '<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="file bot_dissabled" id="bot_'+key+'">'+
+          '<span class="bot_name"> '+ key +' </span>'+
+          '<span class="bot_sett"> &#x27B2; </span>'+
+          '<span class="start"> &#9658; </span>'+
+          '<span class="stop"> &#9724; </span>'+
+          '<span class="level">' + "!" + '</span>'+
+          
+
+        '</span>');}
+      else if (key !== "minimal" && key !== "example" ){$(
+        'div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file bot_acctive" id="bot_'+key+'" style="' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); " + '"">'+
+          '<span class="bot_name"> '+ key +' </span>'+
+          '<span class="bot_sett"> &#x27B2; </span>'+
+          '<span class="start"> &#9658; </span>'+
+          '<span class="stop"> &#9724; </span>'+
+          '<span class="level">' +  "!" + '</span>'+
+
+        '</span>');}
       }
         if ((isEmpty = Object.keys(accounts_ASF).length)){
         

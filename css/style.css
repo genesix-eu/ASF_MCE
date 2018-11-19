@@ -30,13 +30,22 @@ body{
 	background-position: left top; 
 	background-size: auto 100%;
 
+    background-image: url('');
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: auto 100%;
 }
 
 
+
+.stop:hover, .start:hover, .bot_sett:hover, .level:hover, .bot_name:hover{
+	border: 1px solid white;
+}
 
 .file:hover{
-	background: yellow ;
+    border: 2px solid yellow;
 }
+
 
 .level  {
     visibility: hidden;
@@ -47,9 +56,9 @@ body{
     right: 2px;
     position: absolute;
     z-index: 1;
-    color: red;
+
 }
-.start  {
+.stop  {
     visibility: hidden;
     width: 40px;
     border: 1px solid silver;
@@ -58,10 +67,10 @@ body{
     right: 45px;
     position: absolute;
     z-index: 1;
-    color: green;
+    
 }
 
-.stop  {
+.start  {
     visibility: hidden;
     width: 40px;
     border: 1px solid silver;
@@ -70,7 +79,6 @@ body{
     right: 88px;
     position: absolute;
     z-index: 1;
-    color: red;
 }
 
 .bot_sett  {
@@ -82,16 +90,16 @@ body{
     right: 131px;
     position: absolute;
     z-index: 1;
-    color: green;
+
 }
 
 .bot_name  {
     position: absolute;
     top: 0px;
-    left: 66px;
+    left: 72px;
     width: 174px;
-    height: 37px
-    border: 1px solid silver;
+    height: 37px;
+    
     text-align: center;
     z-index: 1;
 }
@@ -113,15 +121,19 @@ body{
 
 
 .bot_dissabled{
-	border: 5px solid red;
+	border: 2px solid orange;
 }
 
 .bot_paused{
-	border: 5px solid orange;
+	border: 2px solid orange;
 }
 
 .bot_acctive{
-	border: 5px solid green;
+	border: 2px solid green;
+
+    background-repeat: no-repeat; 
+    background-position: left top; 
+    background-size: auto 100%;
 }
 
 .tac{
@@ -160,7 +172,7 @@ body{
 }
 
 .exclude{
-	background: orange ;
+	background-color: dimgray ;
 }
 
 
