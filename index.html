@@ -64,6 +64,7 @@
 </label>
 <span id = "sel_form">
   <button type="button" id="ignore" class="btn btn-warning btn-sm top_menu" onclick="ignore_all();">Ignore All</button>
+  <button type="button" id="sel_type" class="btn btn-warning btn-sm top_menu" onclick="">One by One</button>
 </span>
 <button type="button" id="asf_app" class="btn btn-info btn-sm top_menu" onclick="start_asf();">Start ASF</button>
 <button type="button" id="ipc" class="btn btn-info btn-sm top_menu" onclick='$("#ipc_form").toggle();'>IPC</button>
@@ -181,13 +182,13 @@
   </script> 
   </ul>
   </span>
-  <input type="text" class="ipc-control" rows="1" id="ipc_bots" placeholder="<Bots>"></input>
+  <input type="text" class="ipc-control" rows="1" id="ipc_bots_inp" placeholder="<Bots>"></input>
   <input type="text" class="ipc-control" rows="1" id="ipc_arg" placeholder="<Arg1> <Arg2>"></input>
-  <button type="button" id="send_ipc" class="btn btn-info btn-sm" onclick="">Send</button>
+  <button type="button" id="send_ipc" class="btn btn-info btn-sm" onclick="send_ipc_req();">Send</button>
 </div>
 <div id="log_form">
   <table id="ipc_log">
-  <tr><th>req/res</th><th>Time</th><th>Response Data</th></tr>
+  <tr><th>req/res</th><th>Time</th><th>Command / Response Data</th></tr>
   </table>
 </div>
 

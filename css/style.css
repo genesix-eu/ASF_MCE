@@ -44,6 +44,7 @@ body{
 
 .file:hover{
     border: 2px solid yellow;
+    border-left-width: 8px;
 }
 
 
@@ -54,7 +55,7 @@ body{
     border: 1px solid silver;
     text-align: center;
     bottom: 1px;
-    right: 2px;
+    right: 0px;
     position: absolute;
     z-index: 1;
 
@@ -65,7 +66,7 @@ body{
     border: 1px solid silver;
     text-align: center;
     bottom: 1px;
-    right: 45px;
+    right: 43px;
     position: absolute;
     z-index: 1;
     
@@ -77,7 +78,7 @@ body{
     border: 1px solid silver;
     text-align: center;
     bottom: 1px;
-    right: 88px;
+    right: 86px;
     position: absolute;
     z-index: 1;
 }
@@ -88,7 +89,7 @@ body{
     border: 1px solid silver;
     text-align: center;
     bottom: 1px;
-    right: 131px;
+    right: 128px;
     position: absolute;
     z-index: 1;
 
@@ -98,7 +99,7 @@ body{
     position: absolute;
     top: 0px;
     left: 72px;
-    width: 174px;
+    width: 168px;
     height: 37px;
     
     text-align: center;
@@ -123,15 +124,18 @@ body{
 
 .bot_dissabled{
 	border: 2px solid orange;
+    border-left-width: 8px;
 }
 
 .bot_paused{
-	border: 2px solid orange;
+	border: 2px solid cadetblue;
+    border-left-width: 8px;
 }
 
 .bot_acctive{
 	border: 2px solid green;
-
+    
+    border-left-width: 8px;
     background-repeat: no-repeat; 
     background-position: left top; 
     background-size: auto 100%;
@@ -164,6 +168,7 @@ body{
 
 #log_form {
     width: 99%;
+    max-height: 600px;
 }
 
 #ipc_log{
@@ -176,7 +181,7 @@ body{
     width: 15%;
 }
 
-#ipc_bots{
+#ipc_bots_inp{
     resize: both;
     width: 40%;
 }
@@ -284,3 +289,5 @@ input[type="checkbox"] {
     top: 4px;
     position: relative;
 }
+
+

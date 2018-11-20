@@ -7,7 +7,19 @@ var win = gui.Window.get();
 win.x=0;
 win.y=0;
 
+
+if (fs.existsSync(process.cwd()+"\\js\\config_personal.json")) {
+var user_config = require(process.cwd()+"\\js\\config_personal.json");
+console.log("config_personal");
+}else{
 var user_config = require(process.cwd()+"\\js\\config.json");
+console.log("config");
+}
+
+
+
+
+//var user_config = require(process.cwd()+"\\js\\config.json");
 
 var accounts = {};
 var accounts_ASF = {};
@@ -433,20 +445,12 @@ if (event.ctrlKey){
 $(document).on("click", ".start", function() {
 	event.preventDefault();
 	let bot_name = $(this).parent().attr('data-bot-name');
-	$.post("http://127.0.0.1:1242/Api/Command/start "+bot_name, function(data, status){
-		if (data.Message === "OK"){
-
-	}
-});
+  send_ipc_exec("start "+bot_name);
 });
 
 $(document).on("click", ".stop", function() {
 	let bot_name = $(this).parent().attr('data-bot-name');
-		$.post("http://127.0.0.1:1242/Api/Command/stop "+bot_name, function(data, status){
-			if (data.Message === "OK"){
-
-	}
-	});
+  send_ipc_exec("stop "+bot_name);
 });
 
 $(document).on("click", ".bot_sett", function() {
@@ -487,7 +491,7 @@ $(document).on("click", ".bot_name", function() {
     	var index = exclude_list.indexOf(contrl_itm);
     	exclude_list.splice(index, 1);
       if(sel_mode === "obo"){
-        let ipc_bots_inp = document.getElementById("ipc_bots");
+        let ipc_bots_inp = document.getElementById("ipc_bots_inp");
         if(ipc_bots_inp.value.length == 0)
           {ipc_bots_inp.value = contrl_itm;}
         else{
@@ -512,9 +516,11 @@ $(document).on("click", ".bot_name", function() {
 
 
 function error(message){
+  if (no_warnings = false){
   document.getElementById("warm").style.display = "block";
   document.getElementById("warm_mess").textContent = message;
   setTimeout(function(){ document.getElementById("warm").style.display = "none"; }, 7000);
+}
 }
 
 
@@ -1024,4 +1030,27 @@ child = exec(command, function (error, stdout, stderr) {
 
 function change_value_of_input(id, value){
   document.getElementById(id).value=value;
+}
+
+function send_ipc_req(){
+  let ipc_command = document.getElementById("ipc_command").value;
+  let ipc_bots_inp = document.getElementById("ipc_bots_inp").value;
+  let ipc_arg = document.getElementById("ipc_arg").value;
+  let ipc_full_command = "";
+  if (ipc_command){ipc_full_command += ipc_command;}
+  if (ipc_bots_inp){ipc_full_command += " " + ipc_bots_inp;}
+  if (ipc_arg){ipc_full_command += " " + ipc_arg;}
+  
+  if (ipc_full_command){send_ipc_exec(ipc_full_command);}
+}
+
+function send_ipc_exec(command){
+$("#ipc_log").find('tbody').prepend( "<tr><td>req</td><td>"+ (new Date().toLocaleString()) + "</td><td>"+command+"</td></tr>" );
+
+
+  $.post("http://127.0.0.1:1242/Api/Command/"+command, function(data, status){
+  $("#ipc_log").find('tbody').prepend( "<tr><td>res</td><td>"+ (new Date().toLocaleString()) + "</td><td>"+JSON.stringify(data)+"</td></tr>" );
+});
+
+
 }
