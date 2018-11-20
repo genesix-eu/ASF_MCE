@@ -17,6 +17,8 @@ var local_bot_config = false;
 var ipc_bot_config = false;
 var sel_mode = "obo";
 
+var ipc_valid_commands = ["2fa","2fano","2faok","addlicense","balance","exit","level","loot","loot@","loot^","nickname","pause","play","redeem","redeem^","restart","resume","stats","start","status","stop","transfer","transfer@","transfer^","unpack","update","version"];
+
 
 var config_dir = process.cwd()+"\\ASF\\config";
 var config_dir_new = process.cwd()+"\\ASF\\config";
@@ -363,11 +365,9 @@ function autocomplete(inp, arr) {
       });
 }
 
-/*An array containing all the country names in the world:*/
-var ipc_command = ["2fa","2fano","2faok","addlicense","balance","loot","play","start","stop"];
 
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-autocomplete(document.getElementById("ipc_command"), ipc_command);
+autocomplete(document.getElementById("ipc_command"), ipc_valid_commands);
 
 
 
@@ -1020,4 +1020,8 @@ child = exec(command, function (error, stdout, stderr) {
 });
 
 
+}
+
+function change_value_of_input(id, value){
+  document.getElementById(id).value=value;
 }

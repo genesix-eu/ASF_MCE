@@ -47,6 +47,7 @@ body{
 }
 
 
+
 .level  {
     visibility: hidden;
     width: 40px;
@@ -161,9 +162,53 @@ body{
 	display: none;
 }
 
-.ipc-control{
-    
-    display: inline-block;
+#log_form {
+    width: 99%;
+}
+
+#ipc_log{
+    width: 99%;
+}
+
+
+#ipc_command{
+    resize: both;
+    width: 15%;
+}
+
+#ipc_bots{
+    resize: both;
+    width: 40%;
+}
+
+#ipc_arg{
+    resize: both;
+    width: 20%;
+}
+
+#send_ipc, #select_command{
+    position: relative;
+    top: -2px;
+}
+
+#ipc_commandautocomplete-list{
+    display: block;
+
+    width: 15%;
+}
+
+.autocomplete-items{
+    background-color: darkgray;
+    width: fit-content;
+    padding: 0 10px;
+    z-index: 2;
+    display: -webkit-inline-box;
+}
+
+.autocomplete-active{
+    border: 1px solid grey;
+    font-size: 130%;
+    padding: 0 2px;
 }
 
 #save{
@@ -238,8 +283,4 @@ input[type="checkbox"] {
 .top_menu_corr{
     top: 4px;
     position: relative;
-}
-.top_menu_corr2{
-	top: -10px;
-	position: relative;
 }

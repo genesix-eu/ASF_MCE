@@ -2,7 +2,7 @@
 <html>
 <head>
 <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 
 <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -158,13 +158,37 @@
 
 <div id="ipc_form">
 
-  <textarea class="ipc-control" rows="1" id="ipc_command" placeholder="command"></textarea>
-  <textarea class="ipc-control" rows="1" id="ipc_bots" placeholder="bots"></textarea>
-  <textarea class="ipc-control" rows="1" id="ipc_arg" placeholder="arg"></textarea>
-  <button type="button" id="log" class="btn btn-info btn-sm top_menu_corr2" onclick="">Send</button>
+  <input type="text" class="ipc-control" rows="1" id="ipc_command" placeholder="<Command>"></input>
+  <span class="dropdown show" id="select_command">
+    <a class="btn btn-secondary btn-info btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+&nbsp;
+    </a>
+      <ul class='dropdown-menu dropdown-menu-right' dropdown-menu-right" aria-labelledby="dropdownMenuLink" id='ipc_command_menu'>
+      
+  <script type='text/javascript'>
 
+  var thisUL = document.getElementById('ipc_command_menu'); 
+  for(var i = 0; i < ipc_valid_commands.length; i++) {
+      var link = document.createElement('a');
+      link.setAttribute('onclick', "change_value_of_input('ipc_command','"+ipc_valid_commands[i]+"');");
+      link.setAttribute('class', "dropdown-item");
+       link.appendChild(document.createTextNode(ipc_valid_commands[i]));
+      var thisLI = document.createElement('li');
+      thisLI.appendChild(link); 
+      thisUL.appendChild(thisLI); 
+  } 
+
+  </script> 
+  </ul>
+  </span>
+  <input type="text" class="ipc-control" rows="1" id="ipc_bots" placeholder="<Bots>"></input>
+  <input type="text" class="ipc-control" rows="1" id="ipc_arg" placeholder="<Arg1> <Arg2>"></input>
+  <button type="button" id="send_ipc" class="btn btn-info btn-sm" onclick="">Send</button>
+</div>
 <div id="log_form">
-  safasdf
+  <table id="ipc_log">
+  <tr><th>req/res</th><th>Time</th><th>Response Data</th></tr>
+  </table>
 </div>
 
 </div>
