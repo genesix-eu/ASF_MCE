@@ -25,7 +25,7 @@ body{
 	height: 75px;
 	width: 250px;
 	cursor: default;
-	background: green;
+	background: darkgreen;
 	background-repeat: no-repeat; 
 	background-position: left top; 
 	background-size: auto 100%;
@@ -157,8 +157,13 @@ body{
 	background: green !important;
 }
 
-#sel_form, #lbc_form, #SteamUserPermissions_form, #GamesPlayedWhileIdle_form, #SteamMasterClanID_form, #Enabled_form, #Paused_form, #IsBotAccount_form, #More_form, #ICP_form, #c2fa_form{
+#ipc_form, #log_form, #sel_form, #lbc_form, #SteamUserPermissions_form, #GamesPlayedWhileIdle_form, #SteamMasterClanID_form, #Enabled_form, #Paused_form, #IsBotAccount_form, #More_form, #ICP_form, #c2fa_form{
 	display: none;
+}
+
+.ipc-control{
+    
+    display: inline-block;
 }
 
 #save{
@@ -231,6 +236,10 @@ input[type="checkbox"] {
 	position: relative;
 }
 .top_menu_corr{
-	top: 4px;
+    top: 4px;
+    position: relative;
+}
+.top_menu_corr2{
+	top: -10px;
 	position: relative;
 }

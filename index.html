@@ -26,7 +26,7 @@
 
 <div id="editor">
 <div class="tac">
-  <label class="btn btn-info btn-sm top_menu_corr">
+  <label id="lbc_l" class="btn btn-info btn-sm top_menu_corr">
     Local Bots Config
     <input type="checkbox" checked autocomplete="off" id="lbc">
   </label>
@@ -66,6 +66,8 @@
   <button type="button" id="ignore" class="btn btn-warning btn-sm top_menu" onclick="ignore_all();">Ignore All</button>
 </span>
 <button type="button" id="asf_app" class="btn btn-info btn-sm top_menu" onclick="start_asf();">Start ASF</button>
+<button type="button" id="ipc" class="btn btn-info btn-sm top_menu" onclick='$("#ipc_form").toggle();'>IPC</button>
+<button type="button" id="log" class="btn btn-info btn-sm top_menu" onclick='$("#log_form").toggle();'>Log</button>
 </div>
 
 <br>
@@ -154,21 +156,20 @@
 2FA
 </div>
 
+<div id="ipc_form">
 
+  <textarea class="ipc-control" rows="1" id="ipc_command" placeholder="command"></textarea>
+  <textarea class="ipc-control" rows="1" id="ipc_bots" placeholder="bots"></textarea>
+  <textarea class="ipc-control" rows="1" id="ipc_arg" placeholder="arg"></textarea>
+  <button type="button" id="log" class="btn btn-info btn-sm top_menu_corr2" onclick="">Send</button>
 
-
-
+<div id="log_form">
+  safasdf
+</div>
 
 </div>
-<br>
-
-
 <div id="content">
-
-
-
 </div>
-
 </div>
 
 

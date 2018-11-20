@@ -1,3 +1,6 @@
+WORK IN PROGRESS // NOT WORKING YET
+
+
 ASF Mass Config Editor is tool to edit same value in multiple json files for https://github.com/JustArchi/ArchiSteamFarm and also it alows you to send IPC commands start and stop to bots and get 2fa code.
 
 You can select values which you want to change and you can also select bots (json files) which you want to ignore.

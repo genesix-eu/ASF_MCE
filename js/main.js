@@ -9,19 +9,14 @@ win.y=0;
 
 var user_config = require(process.cwd()+"\\js\\config.json");
 
-
-
-
-
-
-
-
-
-
 var accounts = {};
 var accounts_ASF = {};
 var exclude_list = [];
 var include_list = [];
+var local_bot_config = false;
+var ipc_bot_config = false;
+var sel_mode = "obo";
+
 
 var config_dir = process.cwd()+"\\ASF\\config";
 var config_dir_new = process.cwd()+"\\ASF\\config";
@@ -57,6 +52,7 @@ function get_ipc_bots(warn){
 	  xmlhttp.onreadystatechange = function() {
 		  if (this.readyState == 4 && this.status == 200) {
 			var res = JSON.parse(this.responseText);
+      ipc_bot_config = true;
 			accounts_ASF = res.Result;
 			console.log(accounts_ASF);
       for (var key in accounts_ASF) {
@@ -81,10 +77,11 @@ function get_ipc_bots(warn){
         '</span>');}
       }
         if ((isEmpty = Object.keys(accounts_ASF).length)){
-        
+        document.getElementById("asf_app").style.display = "none";
         }else{
         setTimeout(function(){ get_ipc_bots(false); }, 60000);
         console.log("Again");
+
         }
 		  }
 	  };
@@ -92,6 +89,7 @@ function get_ipc_bots(warn){
       if (warn===true) {error("ASF not running or ASF IPC is inaccessible!");}
       setTimeout(function(){ get_ipc_bots(false); }, 30000);
       console.log("Will check for ASF IPC in 30s");
+      ipc_bot_config = false;
     };
 	  xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
 	  xmlhttp.send();
@@ -110,7 +108,9 @@ get_ipc_bots(true);
 fs.readdir(config_dir, function (err, files) {
 	if (err) {error(err)}
   console.log("ASF config folder with bots was not found!");
+  document.getElementById("lbc_l").style.display = "none";
   if (err) throw err;
+  var local_bot_config = true;
 	files.forEach( function (file) {
 		if (file != undefined){
 			fs.lstat(config_dir+'\\'+file, function(err, stats) {
@@ -266,6 +266,135 @@ else if ( status === false && (contrl_itm === "SteamUserPermissions" || contrl_i
 // });
 
 
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+      });
+}
+
+/*An array containing all the country names in the world:*/
+var ipc_command = ["2fa","2fano","2faok","addlicense","balance","loot","play","start","stop"];
+
+/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+autocomplete(document.getElementById("ipc_command"), ipc_command);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 $(document).on("click", ".level", function() {
 if (event.ctrlKey){
@@ -357,6 +486,15 @@ $(document).on("click", ".bot_name", function() {
     if ($( this ).parent().hasClass( "exclude" )){
     	var index = exclude_list.indexOf(contrl_itm);
     	exclude_list.splice(index, 1);
+      if(sel_mode === "obo"){
+        let ipc_bots_inp = document.getElementById("ipc_bots");
+        if(ipc_bots_inp.value.length == 0)
+          {ipc_bots_inp.value = contrl_itm;}
+        else{
+          ipc_bots_inp.value = ipc_bots_inp.value +","+contrl_itm;
+        }
+
+      }
     	$(this).parent().removeClass("exclude");  
     }else{
     	exclude_list.push(contrl_itm);
@@ -392,27 +530,44 @@ function reorder(){
   })
 }
 
+
 function ignore_all(){
-
-	if (exclude_list.length === Object.keys(accounts).length){
-		exclude_list.length = 0;
-		for (var k in accounts){
-			$("#bot_"+k).removeClass("exclude");
-		}
-    document.getElementById("ignore").innerHTML = "Ignore All";
+  if (local_bot_config === false && ipc_bot_config === true){
+    if (exclude_list.length === Object.keys(accounts_ASF).length){
+    exclude_list.length = 0;
+    for (var k in accounts_ASF){
+     $("#bot_"+k).removeClass("exclude");
+   }
+   document.getElementById("ignore").innerHTML = "Ignore All";
+ }
+ else{
+  document.getElementById("ignore").innerHTML = "Ignore None";
+  for (var k in accounts_ASF){
+   if (accounts_ASF.hasOwnProperty(k) && exclude_list.indexOf(k) < 0) {
+    exclude_list.push(k);
+    $("#bot_"+k).addClass("exclude");  
   }
-  else{
-    document.getElementById("ignore").innerHTML = "Ignore None";
-
+}
+}
+}else if(local_bot_config == true && ipc_bot_config === false) {
+    if (exclude_list.length === Object.keys(accounts).length){
+    exclude_list.length = 0;
     for (var k in accounts){
-     if (accounts.hasOwnProperty(k) && exclude_list.indexOf(k) < 0) {
-      exclude_list.push(k);
-      $("#bot_"+k).addClass("exclude");  
-    }
+     $("#bot_"+k).removeClass("exclude");
+   }
+   document.getElementById("ignore").innerHTML = "Ignore All";
+ }
+ else{
+  document.getElementById("ignore").innerHTML = "Ignore None";
+  for (var k in accounts){
+   if (accounts.hasOwnProperty(k) && exclude_list.indexOf(k) < 0) {
+    exclude_list.push(k);
+    $("#bot_"+k).addClass("exclude");  
   }
 }
 }
-
+}
+}
 
 
 function show(id, how){
