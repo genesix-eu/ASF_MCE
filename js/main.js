@@ -114,7 +114,7 @@ $(document).ready(function(){
 
           '</span>');}
           else if (key !== "minimal" && key !== "example" ){$(
-            'div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file bot_acctive" id="bot_'+key+'" style="' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); " + '"">'+
+            'div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file bot_ready" id="bot_'+key+'" style="' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); " + '"">'+
             '<span class="bot_name"> '+ key +' </span>'+
             '<span class="bot_sett"> &#x27B2; </span>'+
             '<span class="start"> &#9658; </span>'+
