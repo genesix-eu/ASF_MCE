@@ -52,14 +52,23 @@ copy ASF folder where ASF MCE is
 
 
 File structure should be like this:
+
 ASF_MCE/ASF/config/bot01.json
+
 ASF_MCE/ASF/ArchiSteamFarm.exe
+
 ASF_MCE/css/*.*
+
 ASF_MCE/img/*.*
+
 ASF_MCE/js/*.*
+
 ASF_MCE/node_modules/*.*
+
 ASF_MCE/index.html
+
 ASF_MCE/package.json
+
 ASF_MCE/*.*
 
 
