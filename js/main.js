@@ -710,7 +710,7 @@ else
    if (accounts_ASF.hasOwnProperty(k) && exclude_list.indexOf(k) < 0) {
     exclude_list.push(k);
     $("#bot_"+k).addClass("exclude"); 
-    console.log(k + "" + (exclude_list.indexOf(k) < 0));
+    // console.log(k + "" + (exclude_list.indexOf(k) < 0));
   }
 }
 }
