@@ -1,8 +1,8 @@
 {
   "main": "index.html",
   "name": "ASF_MCE",
-  "description": "gene_asd_edit",
-  "version": "0.0.3",
+  "description": "ASF_MCE",
+  "version": "0.0.4",
   "keywords": [
     "node-webkit",
     "nwjs",
@@ -30,7 +30,7 @@
     {
       "name": "JohnnSy",
       "email": "admin@genesix.eu",
-      "web": "http://genesix.eu/"
+      "web": "https://genesix.eu/"
     }
   ],
   "single-instance": false,

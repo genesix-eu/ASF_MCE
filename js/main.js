@@ -10,10 +10,10 @@ win.y=0;
 
 if (fs.existsSync(process.cwd()+"\\js\\config_personal.json")) {
   var user_config = require(process.cwd()+"\\js\\config_personal.json");
-  console.log("config_personal");
+  // console.log("config_personal");
 }else{
   var user_config = require(process.cwd()+"\\js\\config.json");
-  console.log("config");
+  // console.log("config");
 }
 
 if (fs.existsSync(process.cwd()+"\\ASF\\config\\")) {
@@ -58,7 +58,7 @@ $(document).ready(function(){
     hide("warm");
   }
 
-  setTimeout(function(){ ignore_all(); }, 1000);
+  setTimeout(function(){ ignore_all(); }, 3000);
 
   setTimeout(function() {
     hide("warm");
@@ -77,7 +77,10 @@ $(document).ready(function(){
      ipc_bot_config = true;
      accounts_ASF_prev = accounts_ASF;
      accounts_ASF = res.Result;
-     console.log(accounts_ASF);
+     
+     delete accounts_ASF.minimal;
+     delete accounts_ASF.example;
+     // console.log(accounts_ASF);
      document.getElementById("asf_app").style.display = "none";
      if (local_bot_config){
       for (var key in accounts_ASF) {
@@ -85,13 +88,18 @@ $(document).ready(function(){
           if(!$("#bot_" + key).hasClass("bot_ready")){
             var element = document.getElementById("bot_" + key);
             element.classList.add("bot_ready");
-            console.log(key);
-            console.log("pika");
+            element.style.backgroundImage = "url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg')"
           }
+        }else{
+          var element = document.getElementById("bot_" + key);
+          element.classList.remove("bot_ready");
         }
 
       }
-      console.log("UPDATE BOTS!");
+      // console.log("UPDATE BOTS!");
+      // console.log("Will check for ASF IPC changes in 15s");
+      setTimeout(function(){ get_ipc_bots(false); }, 15000);
+
     }
     else{
       for (var key in accounts_ASF) {
@@ -116,13 +124,7 @@ $(document).ready(function(){
             '</span>');}
           }
         }
-        if ((isEmpty = Object.keys(accounts_ASF).length)){
 
-        }else{
-          setTimeout(function(){ get_ipc_bots(false); }, 60000);
-          console.log("Again");
-
-        }
       }
     };
     xmlhttp.onerror = function(e){
@@ -146,10 +148,14 @@ setTimeout(function(){ get_ipc_bots(true); }, 2000);
 
 
 fs.readdir(config_dir, function (err, files) {
-	if (err) {error(err)
+	if (err) {
+    error(err);
     document.getElementById("lbc_l").style.display = "none";
+    // console.log("ASF config folder with bots was not found!");
   }
-  console.log("ASF config folder with bots was not found!");
+
+  // setTimeout(function(){ error("ASF Config Files not Found in ./ASF/config/"); }, 3000);
+  
 
   if (err) throw err;
   local_bot_config = true;
@@ -163,16 +169,23 @@ fs.readdir(config_dir, function (err, files) {
        if (ext=='json' && file != "example.json" &&  file != "minimal.json" && file != "ASF.json"){
         var temp_name = config_dir+"\\"+file;
         accounts[just_name] = require(temp_name);
-        if (accounts[just_name].Enabled === false){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'" class="file '+ ext +' bot_dissabled" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-        else if (accounts[just_name].Paused === true ){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_paused" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-        else{$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_acctive" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+        
+        let steamID =  Object.is(accounts[just_name].steamID, undefined) ? "" : accounts[just_name].steamID;
+        let avatarHash =  Object.is(accounts[just_name].avatarHash, undefined) ? "" : "url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/"+accounts[just_name].avatarHash + "_full.jpg')";
+        let steamLevel =  Object.is(accounts[just_name].steamLevel, undefined) ? "!" : accounts[just_name].steamLevel;
+
+        if (accounts[just_name].Enabled === false){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+ steamID+'" class="file '+ ext +' bot_dissabled" id="bot_'+just_name+'" style='+ '"' + "background-image: " + avatarHash + "; background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + steamLevel + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+        else if (accounts[just_name].Paused === true ){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+steamID+'"  class="file '+ ext +' bot_paused" id="bot_'+just_name+'" style='+ '"' + "background-image: " + avatarHash + "; background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + steamLevel + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+        else{$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+steamID+'"  class="file '+ ext +' bot_acctive" id="bot_'+just_name+'" style='+ '"' + "background-image: " + avatarHash + "; background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + steamLevel + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
       }
 
 
     });
+
    }
  });
-});
+     // console.log(accounts);
+   });
 
 
 
@@ -442,36 +455,67 @@ $(document).on("click", ".level", function() {
     next();
   });
   if (event.ctrlKey){
-   var bot_name = $(this).parent().attr('data-bot-name');
-   console.log(bot_name);
-   let steamID = ( accounts_ASF[bot_name].s_SteamID || accounts[bot_name].steamID.toString() );
-   $.getJSON("http://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=" + user_config.steamAPIKey + "&steamid="+steamID, function(result){
+    var bot_name = $(this).parent().attr('data-bot-name');
+    var this_elem = $(this);
+    // console.log(bot_name);
+    let steamID;
+    if(accounts[bot_name].steamID){
+      steamID = accounts[bot_name].steamID.toString();
+      accounts[bot_name].steamID = steamID;
+    }
+    else if(accounts_ASF[bot_name].s_SteamID){
+      steamID = accounts_ASF[bot_name].s_SteamID;
+      accounts[bot_name].steamID = steamID;
+    }
+    else
+    {
+      console.log("Can't get SteamID");
+      return 0;
+    }
 
-    accounts[bot_name].steamLevel = result.response.player_level;
+    if (user_config.steamAPIKey && user_config.steamAPIKey !== "0000"){
+     $.getJSON("http://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=" + user_config.steamAPIKey + "&steamid="+steamID, function(result){
+      accounts[bot_name].steamLevel = result.response.player_level;
+      $(this_elem).text(result.response.player_level);
 
-    console.log(bot_name)
-		//let index = accounts_ASF.prototype.findIndex(x => x.BotName===bot_name);
-		let avatarHash = accounts_ASF[bot_name].AvatarHash;
+    });
+   }
+   if(accounts[bot_name].avatarHash){
+    let avatarHash = accounts[bot_name].avatarHash;
+    accounts[bot_name].avatarHash = avatarHash;
+  }
+  else if(accounts_ASF[bot_name].AvatarHash){
+    let avatarHash = accounts_ASF[bot_name].AvatarHash;
+    accounts[bot_name].avatarHash = avatarHash;
+  }
+  else
+  {
+    console.log("Can't get AvatarHash");
 
-		accounts[bot_name].avatarHash = avatarHash;
-		accounts[bot_name].steamID = accounts_ASF[bot_name].s_SteamID;
-		let file = bot_name+'.json';
-		let filePath = path.join(config_dir_new, file);
+  }
 
-		let temp_holder = JSON.stringify(accounts[bot_name], null, "\t");
-		fs.writeFile(filePath, temp_holder, function (err) {
-			if (err) {
-				console.info("There was an error attempting to save");
-				console.warn(err.message);
-				alert("There was an error attempting to save");
-				return;
-			} else if (callback) {
-				callback();
-			}
-		});
+  setTimeout(function(){
+    let file = bot_name+'.json';
+    let filePath = path.join(config_dir_new, file);
 
-	});
- }
+    let temp_holder = JSON.stringify(accounts[bot_name], null, "\t");
+    fs.writeFile(filePath, temp_holder, function (err) {
+      if (err) {
+        console.info("There was an error attempting to save");
+        console.warn(err.message);
+        alert("There was an error attempting to save");
+        return;
+      } else if (callback) {
+        callback();
+      }
+    });
+
+  }, 1000); 
+
+
+
+
+}
 });
 
 $(document).on("click", ".start", function() {
@@ -544,39 +588,42 @@ $(document).on("click", ".bot_name", function() {
 
   }else if(sel_mode==="range"){
     let ipc_bots_bef_aff = ipc_bots_inp.value.split("..");
-    if(ipc_bots_inp.value.length == 0)
-      {ipc_bots_inp.value = contrl_itm;}
-    else if(ipc_bots_bef_aff[1]){
-      ipc_bots_inp.value = contrl_itm;
-      ignore_all();
-    }else{
-      ipc_bots_inp.value = ipc_bots_inp.value +".."+contrl_itm;
+    if(ipc_bots_inp.value.length === 0)
+      {ipc_bots_inp.value = contrl_itm;
+
+      }else if(ipc_bots_bef_aff[1]){
+        ignore_all("all");
+        ipc_bots_inp.value = contrl_itm;
+        
+      }else{
+        ipc_bots_inp.value = ipc_bots_inp.value +".."+contrl_itm;
+        
+      }
     }
-  }
-  $(this).parent().removeClass("exclude");  
-}else{
-  let ipc_bots_inp_all = ipc_bots_inp.value;
-  if (sel_mode==="obo"){
+    $(this).parent().removeClass("exclude");  
+  }else{
+    let ipc_bots_inp_all = ipc_bots_inp.value;
+    if (sel_mode==="obo"){
 
 
 // let ipc_bots_before = ipc_bots_inp_all.substring(0, str.indexOf(contrl_itm));
 let ipc_bots_bef_aff = ipc_bots_inp_all.split(contrl_itm);
 let last_ch = ipc_bots_bef_aff[0].slice(-1);
 let first_ch = ipc_bots_bef_aff[1].slice(0, 1);
-console.log("last was "+last_ch);
-console.log("first was" +first_ch);
+// console.log("last was "+last_ch);
+// console.log("first was" +first_ch);
 if (last_ch === "," && first_ch===","){
   ipc_bots_inp.value =   ipc_bots_inp_all.replace(","+contrl_itm, "");
-  console.log(",x,");
+  // console.log(",x,");
 }else if(last_ch === ","){
   ipc_bots_inp.value =   ipc_bots_inp_all.replace(","+contrl_itm, "");
-  console.log(",x");
+  // console.log(",x");
 }else if(first_ch === ","){
   ipc_bots_inp.value =   ipc_bots_inp_all.replace(contrl_itm+",", "");
-  console.log("x,");
+  // console.log("x,");
 }else{
   ipc_bots_inp.value =   ipc_bots_inp_all.replace(contrl_itm, "");
-  console.log("x");
+  // console.log("x");
 }
 }else if(sel_mode==="range"){
   let separ = ipc_bots_inp_all.indexOf("..");
@@ -612,7 +659,8 @@ $(this).parent().addClass("exclude");
 
 
 function error(message){
-  if (no_warnings = false){
+  // console.log(message);
+  if (user_config.no_warnings === false){
     document.getElementById("warm").style.display = "block";
     document.getElementById("warm_mess").textContent = message;
     setTimeout(function(){ document.getElementById("warm").style.display = "none"; }, 7000);
@@ -633,8 +681,9 @@ function reorder(){
 }
 
 
-function ignore_all(){
+function ignore_all(how){
   if (local_bot_config === false && ipc_bot_config === true){
+    console.log(exclude_list.length +" - "+Object.keys(accounts_ASF).length);
     if (exclude_list.length === Object.keys(accounts_ASF).length){
       exclude_list.length = 0;
       for (var k in accounts_ASF){
@@ -642,14 +691,28 @@ function ignore_all(){
      }
      document.getElementById("ignore").innerHTML = "Ignore All";
    }
-   else{
+   else if (how === "all")
+   {
     document.getElementById("ignore").innerHTML = "Ignore None";
+    exclude_list=[];
     for (var k in accounts_ASF){
      if (accounts_ASF.hasOwnProperty(k) && exclude_list.indexOf(k) < 0) {
       exclude_list.push(k);
-      $("#bot_"+k).addClass("exclude");  
+      $("#bot_"+k).addClass("exclude"); 
+      console.log(k + "" + (exclude_list.indexOf(k) < 0));
     }
   }
+}
+else
+{
+  document.getElementById("ignore").innerHTML = "Ignore None";
+  for (var k in accounts_ASF){
+   if (accounts_ASF.hasOwnProperty(k) && exclude_list.indexOf(k) < 0) {
+    exclude_list.push(k);
+    $("#bot_"+k).addClass("exclude"); 
+    console.log(k + "" + (exclude_list.indexOf(k) < 0));
+  }
+}
 }
 }else{
   if (exclude_list.length === Object.keys(accounts).length){
@@ -1131,6 +1194,7 @@ function change_value_of_input(id, value){
 function send_ipc_req(){
   let ipc_command = document.getElementById("ipc_command").value;
   let ipc_bots_inp = document.getElementById("ipc_bots_inp").value;
+  let ipc_bots_inp2 = document.getElementById("ipc_bots_inp");
   let ipc_arg = document.getElementById("ipc_arg").value;
   let ipc_full_command = "";
   if (ipc_command){ipc_full_command += ipc_command;}
@@ -1138,6 +1202,8 @@ function send_ipc_req(){
   if (ipc_arg){ipc_full_command += " " + ipc_arg;}
   
   if (ipc_full_command){send_ipc_exec(ipc_full_command);}
+  ignore_all();
+  ipc_bots_inp2.value = "";
 }
 
 function send_ipc_exec(command){
@@ -1153,6 +1219,7 @@ function send_ipc_exec(command){
 }
 
 function sel_type(){
+  let ipc_bots_inp = document.getElementById("ipc_bots_inp");
   if (sel_mode === "obo"){
     let ipc_command = document.getElementById("sel_type").innerText = "Range";
     sel_mode = "range";
@@ -1162,7 +1229,12 @@ function sel_type(){
     sel_mode = "obo";
 
   }
-  ignore_all();
-  let ipc_bots_inp = document.getElementById("ipc_bots_inp");
-  ipc_bots_inp.value = "";
+
+  if (  ipc_bots_inp.value ){
+    // console.log();
+    ignore_all();
+    ipc_bots_inp.value = "";
+  }
+
+
 }
