@@ -68,7 +68,7 @@ $(document).ready(function(){
 
 
 
-  function get_ipc_bots(warn){
+  function get_ipc_bots(warn, update){
    var xmlhttp = new XMLHttpRequest();
   // try{
    xmlhttp.onreadystatechange = function() {
@@ -82,7 +82,7 @@ $(document).ready(function(){
      delete accounts_ASF.example;
      // console.log(accounts_ASF);
      document.getElementById("asf_app").style.display = "none";
-     if (local_bot_config){
+     if (local_bot_config || update){
       for (var key in accounts_ASF) {
         if (accounts_ASF[key].IsConnectedAndLoggedOn === true &&  ( key !== "minimal" && key !== "example" )){
           if(!$("#bot_" + key).hasClass("bot_ready")){
@@ -98,7 +98,7 @@ $(document).ready(function(){
       }
       // console.log("UPDATE BOTS!");
       // console.log("Will check for ASF IPC changes in 15s");
-      setTimeout(function(){ get_ipc_bots(false); }, 15000);
+      setTimeout(function(){ get_ipc_bots(false, true); }, 15000);
 
     }
     else{
@@ -123,6 +123,7 @@ $(document).ready(function(){
 
             '</span>');}
           }
+          setTimeout(function(){ get_ipc_bots(false,true); }, 15000);
         }
 
       }
