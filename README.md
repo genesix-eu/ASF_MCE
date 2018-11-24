@@ -63,7 +63,7 @@ ASF_MCE/package.json
 ASF_MCE/*.*
 
 
-Or download it from here: https://nwjs.huuuuu
+Or download it from here: https://github.com/genesix-eu/ASF_MCE/releases/download/v0.0.4/ASF_MCE.zip
 
 
 And this my first atempt to use git and github so Keep Calm and Git Gud!
