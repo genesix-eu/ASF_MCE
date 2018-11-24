@@ -9,11 +9,11 @@ win.y=0;
 
 
 if (fs.existsSync(process.cwd()+"\\js\\config_personal.json")) {
-var user_config = require(process.cwd()+"\\js\\config_personal.json");
-console.log("config_personal");
+  var user_config = require(process.cwd()+"\\js\\config_personal.json");
+  console.log("config_personal");
 }else{
-var user_config = require(process.cwd()+"\\js\\config.json");
-console.log("config");
+  var user_config = require(process.cwd()+"\\js\\config.json");
+  console.log("config");
 }
 
 if (fs.existsSync(process.cwd()+"\\ASF\\config\\")) {
@@ -30,6 +30,7 @@ if (fs.existsSync(process.cwd()+"\\ASF\\config\\")) {
 
 var accounts = {};
 var accounts_ASF = {};
+var accounts_ASF_prev = {};
 var exclude_list = [];
 var include_list = [];
 var local_bot_config = false;
@@ -43,83 +44,95 @@ var config_dir = process.cwd()+"\\ASF\\config";
 var config_dir_new = process.cwd()+"\\ASF\\config";
 
 jQuery.fn.sortDomElements = (function() {
-    return function(comparator) {
-        return Array.prototype.sort.call(this, comparator).each(function(i) {
-              this.parentNode.appendChild(this);
-        });
-    };
+  return function(comparator) {
+    return Array.prototype.sort.call(this, comparator).each(function(i) {
+      this.parentNode.appendChild(this);
+    });
+  };
 })();
 
 
 $(document).ready(function(){
 
-if (user_config.no_warnings === true){
-  hide("warm");
-}
+  if (user_config.no_warnings === true){
+    hide("warm");
+  }
 
-setTimeout(function(){ ignore_all(); }, 1000);
+  setTimeout(function(){ ignore_all(); }, 1000);
 
-setTimeout(function() {
-  hide("warm");
-}, 4000);
-
-
- 
+  setTimeout(function() {
+    hide("warm");
+  }, 4000);
 
 
-function get_ipc_bots(warn){
-	var xmlhttp = new XMLHttpRequest();
+
+
+
+  function get_ipc_bots(warn){
+   var xmlhttp = new XMLHttpRequest();
   // try{
-	  xmlhttp.onreadystatechange = function() {
-		  if (this.readyState == 4 && this.status == 200) {
-			var res = JSON.parse(this.responseText);
-      ipc_bot_config = true;
-			accounts_ASF = res.Result;
-			console.log(accounts_ASF);
-      document.getElementById("asf_app").style.display = "none";
-      if (local_bot_config){
-        console.log("UPDATE BOTS!");
+   xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     var res = JSON.parse(this.responseText);
+     ipc_bot_config = true;
+     accounts_ASF_prev = accounts_ASF;
+     accounts_ASF = res.Result;
+     console.log(accounts_ASF);
+     document.getElementById("asf_app").style.display = "none";
+     if (local_bot_config){
+      for (var key in accounts_ASF) {
+        if (accounts_ASF[key].IsConnectedAndLoggedOn === true &&  ( key !== "minimal" && key !== "example" )){
+          if(!$("#bot_" + key).hasClass("bot_ready")){
+            var element = document.getElementById("bot_" + key);
+            element.classList.add("bot_ready");
+            console.log(key);
+            console.log("pika");
+          }
+        }
+
       }
-        else{
-          for (var key in accounts_ASF) {
-            if (accounts_ASF[key].IsConnectedAndLoggedOn === false &&  ( key !== "minimal" && key !== "example" )){$('div#content').append(
-              '<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="file bot_dissabled" id="bot_'+key+'">'+
-              '<span class="bot_name"> '+ key +' </span>'+
-              '<span class="bot_sett"> &#x27B2; </span>'+
-              '<span class="start"> &#9658; </span>'+
-              '<span class="stop"> &#9724; </span>'+
-              '<span class="level">' + "!" + '</span>'+
+      console.log("UPDATE BOTS!");
+    }
+    else{
+      for (var key in accounts_ASF) {
+        if (accounts_ASF[key].IsConnectedAndLoggedOn === false &&  ( key !== "minimal" && key !== "example" )){$('div#content').append(
+          '<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="file bot_dissabled" id="bot_'+key+'">'+
+          '<span class="bot_name"> '+ key +' </span>'+
+          '<span class="bot_sett"> &#x27B2; </span>'+
+          '<span class="start"> &#9658; </span>'+
+          '<span class="stop"> &#9724; </span>'+
+          '<span class="level">' + "!" + '</span>'+
 
 
-              '</span>');}
-              else if (key !== "minimal" && key !== "example" ){$(
-                'div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file bot_acctive" id="bot_'+key+'" style="' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); " + '"">'+
-                '<span class="bot_name"> '+ key +' </span>'+
-                '<span class="bot_sett"> &#x27B2; </span>'+
-                '<span class="start"> &#9658; </span>'+
-                '<span class="stop"> &#9724; </span>'+
-                '<span class="level">' +  "!" + '</span>'+
+          '</span>');}
+          else if (key !== "minimal" && key !== "example" ){$(
+            'div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file bot_acctive" id="bot_'+key+'" style="' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); " + '"">'+
+            '<span class="bot_name"> '+ key +' </span>'+
+            '<span class="bot_sett"> &#x27B2; </span>'+
+            '<span class="start"> &#9658; </span>'+
+            '<span class="stop"> &#9724; </span>'+
+            '<span class="level">' +  "!" + '</span>'+
 
-                '</span>');}
-              }
-            }
+            '</span>');}
+          }
+        }
         if ((isEmpty = Object.keys(accounts_ASF).length)){
-        
+
         }else{
-        setTimeout(function(){ get_ipc_bots(false); }, 60000);
-        console.log("Again");
+          setTimeout(function(){ get_ipc_bots(false); }, 60000);
+          console.log("Again");
 
         }
-		  }
-	  };
+      }
+    };
     xmlhttp.onerror = function(e){
       if (warn===true) {error("ASF not running or ASF IPC is inaccessible!");}
       setTimeout(function(){ get_ipc_bots(false); }, 30000);
       console.log("Will check for ASF IPC in 30s");
       ipc_bot_config = false;
     };
-	  xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
-	  xmlhttp.send();
+    xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
+    xmlhttp.send();
 
   // }catch(e){
   //   error("ASF not running or ASF IPC is inaccessible!");
@@ -127,38 +140,38 @@ function get_ipc_bots(warn){
 }
 
 
+setTimeout(function(){ get_ipc_bots(true); }, 2000);
 
-get_ipc_bots(true);
 
 
 
 fs.readdir(config_dir, function (err, files) {
 	if (err) {error(err)
-  document.getElementById("lbc_l").style.display = "none";
-    }
+    document.getElementById("lbc_l").style.display = "none";
+  }
   console.log("ASF config folder with bots was not found!");
 
   if (err) throw err;
   local_bot_config = true;
-	files.forEach( function (file) {
-		if (file != undefined){
-			fs.lstat(config_dir+'\\'+file, function(err, stats) {
+  files.forEach( function (file) {
+    if (file != undefined){
+     fs.lstat(config_dir+'\\'+file, function(err, stats) {
 
-					var n = file.indexOf('.');
-					var just_name = file.substring(0, n != -1 ? n : n.length);
-					var ext = file.split('.').pop();
-  					if (ext=='json' && file != "example.json" &&  file != "minimal.json" && file != "ASF.json"){
-              var temp_name = config_dir+"\\"+file;
-              accounts[just_name] = require(temp_name);
-              if (accounts[just_name].Enabled === false){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'" class="file '+ ext +' bot_dissabled" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-              else if (accounts[just_name].Paused === true ){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_paused" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-              else{$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_acctive" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-            }
+       var n = file.indexOf('.');
+       var just_name = file.substring(0, n != -1 ? n : n.length);
+       var ext = file.split('.').pop();
+       if (ext=='json' && file != "example.json" &&  file != "minimal.json" && file != "ASF.json"){
+        var temp_name = config_dir+"\\"+file;
+        accounts[just_name] = require(temp_name);
+        if (accounts[just_name].Enabled === false){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'" class="file '+ ext +' bot_dissabled" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+        else if (accounts[just_name].Paused === true ){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_paused" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+        else{$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+accounts[just_name].steamID+'"  class="file '+ ext +' bot_acctive" id="bot_'+just_name+'" style='+ '"' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + (accounts[just_name].avatarHash || accounts_ASF[just_name].AvatarHash) + "_full.jpg'); background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + (accounts[just_name].steamLevel || "!") + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
+      }
 
 
-      });
-		}
-  });
+    });
+   }
+ });
 });
 
 
@@ -181,9 +194,9 @@ $(document).on("click", "label", function() {
   status = document.getElementById(contrl_itm).checked;
 
 
-if ( status === true && (contrl_itm === "sel" || contrl_itm === "lbc" || contrl_itm === "Enabled" || contrl_itm === "Paused" || contrl_itm === "IsBotAccount" || contrl_itm === "SteamUserPermissions" || contrl_itm === "GamesPlayedWhileIdle" || contrl_itm === "SteamMasterClanID" || contrl_itm === "More" || contrl_itm === "ICP" || contrl_itm === "c2fa")){document.getElementById(contrl_itm+'_form').style.display = "none";}
-else if ( status === false && (contrl_itm === "sel" || contrl_itm === "lbc" || contrl_itm === "Enabled" || contrl_itm === "Paused" || contrl_itm === "IsBotAccount")) {document.getElementById(contrl_itm+'_form').style.display = "inline-block";}
-else if ( status === false && (contrl_itm === "SteamUserPermissions" || contrl_itm === "GamesPlayedWhileIdle" || contrl_itm === "SteamMasterClanID" || contrl_itm === "More" || contrl_itm === "ICP" || contrl_itm === "c2fa")) {document.getElementById(contrl_itm+'_form').style.display = "block";}
+  if ( status === true && (contrl_itm === "sel" || contrl_itm === "lbc" || contrl_itm === "Enabled" || contrl_itm === "Paused" || contrl_itm === "IsBotAccount" || contrl_itm === "SteamUserPermissions" || contrl_itm === "GamesPlayedWhileIdle" || contrl_itm === "SteamMasterClanID" || contrl_itm === "More" || contrl_itm === "ICP" || contrl_itm === "c2fa")){document.getElementById(contrl_itm+'_form').style.display = "none";}
+  else if ( status === false && (contrl_itm === "sel" || contrl_itm === "lbc" || contrl_itm === "Enabled" || contrl_itm === "Paused" || contrl_itm === "IsBotAccount")) {document.getElementById(contrl_itm+'_form').style.display = "inline-block";}
+  else if ( status === false && (contrl_itm === "SteamUserPermissions" || contrl_itm === "GamesPlayedWhileIdle" || contrl_itm === "SteamMasterClanID" || contrl_itm === "More" || contrl_itm === "ICP" || contrl_itm === "c2fa")) {document.getElementById(contrl_itm+'_form').style.display = "block";}
 
 
 });
@@ -206,7 +219,7 @@ else if ( status === false && (contrl_itm === "SteamUserPermissions" || contrl_i
 // 		console.log(steamID);
 // 		if (user_config.steamAPIKey === "0000") {alert("Change Steam Web Api Key in ./js/config.json")};
 // 		$.getJSON("http://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=" + user_config.steamAPIKey + "&steamid="+steamID, function(result){
-			
+
 // 			console.log(result.response.player_level);
 
 
@@ -301,45 +314,45 @@ function autocomplete(inp, arr) {
   var currentFocus;
   /*execute a function when someone writes in the text field:*/
   inp.addEventListener("input", function(e) {
-      var a, b, i, val = this.value;
-      /*close any already open lists of autocompleted values*/
-      closeAllLists();
-      if (!val) { return false;}
-      currentFocus = -1;
-      /*create a DIV element that will contain the items (values):*/
-      a = document.createElement("DIV");
-      a.setAttribute("id", this.id + "autocomplete-list");
-      a.setAttribute("class", "autocomplete-items");
-      /*append the DIV element as a child of the autocomplete container:*/
-      this.parentNode.appendChild(a);
-      /*for each item in the array...*/
-      for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
-          b = document.createElement("DIV");
-          /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(val.length);
-          /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          /*execute a function when someone clicks on the item value (DIV element):*/
-          b.addEventListener("click", function(e) {
-              /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
+    var a, b, i, val = this.value;
+    /*close any already open lists of autocompleted values*/
+    closeAllLists();
+    if (!val) { return false;}
+    currentFocus = -1;
+    /*create a DIV element that will contain the items (values):*/
+    a = document.createElement("DIV");
+    a.setAttribute("id", this.id + "autocomplete-list");
+    a.setAttribute("class", "autocomplete-items");
+    /*append the DIV element as a child of the autocomplete container:*/
+    this.parentNode.appendChild(a);
+    /*for each item in the array...*/
+    for (i = 0; i < arr.length; i++) {
+      /*check if the item starts with the same letters as the text field value:*/
+      if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+        /*create a DIV element for each matching element:*/
+        b = document.createElement("DIV");
+        /*make the matching letters bold:*/
+        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+        b.innerHTML += arr[i].substr(val.length);
+        /*insert a input field that will hold the current array item's value:*/
+        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+        /*execute a function when someone clicks on the item value (DIV element):*/
+        b.addEventListener("click", function(e) {
+          /*insert the value for the autocomplete text field:*/
+          inp.value = this.getElementsByTagName("input")[0].value;
               /*close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
               closeAllLists();
-          });
-          a.appendChild(b);
-        }
+            });
+        a.appendChild(b);
       }
+    }
   });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
-      var x = document.getElementById(this.id + "autocomplete-list");
-      if (x) x = x.getElementsByTagName("div");
-      if (e.keyCode == 40) {
+    var x = document.getElementById(this.id + "autocomplete-list");
+    if (x) x = x.getElementsByTagName("div");
+    if (e.keyCode == 40) {
         /*If the arrow DOWN key is pressed,
         increase the currentFocus variable:*/
         currentFocus++;
@@ -359,7 +372,7 @@ function autocomplete(inp, arr) {
           if (x) x[currentFocus].click();
         }
       }
-  });
+    });
   function addActive(x) {
     /*a function to classify an item as "active":*/
     if (!x) return false;
@@ -388,8 +401,8 @@ function autocomplete(inp, arr) {
   }
   /*execute a function when someone clicks in the document:*/
   document.addEventListener("click", function (e) {
-      closeAllLists(e.target);
-      });
+    closeAllLists(e.target);
+  });
 }
 
 
@@ -428,15 +441,15 @@ $(document).on("click", ".level", function() {
     $(this).removeClass("clicked");
     next();
   });
-if (event.ctrlKey){
-	var bot_name = $(this).parent().attr('data-bot-name');
-	console.log(bot_name);
-	let steamID = ( accounts_ASF[bot_name].s_SteamID || accounts[bot_name].steamID.toString() );
-	$.getJSON("http://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=" + user_config.steamAPIKey + "&steamid="+steamID, function(result){
+  if (event.ctrlKey){
+   var bot_name = $(this).parent().attr('data-bot-name');
+   console.log(bot_name);
+   let steamID = ( accounts_ASF[bot_name].s_SteamID || accounts[bot_name].steamID.toString() );
+   $.getJSON("http://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=" + user_config.steamAPIKey + "&steamid="+steamID, function(result){
 
-		accounts[bot_name].steamLevel = result.response.player_level;
+    accounts[bot_name].steamLevel = result.response.player_level;
 
-		console.log(bot_name)
+    console.log(bot_name)
 		//let index = accounts_ASF.prototype.findIndex(x => x.BotName===bot_name);
 		let avatarHash = accounts_ASF[bot_name].AvatarHash;
 
@@ -458,7 +471,7 @@ if (event.ctrlKey){
 		});
 
 	});
-}
+ }
 });
 
 $(document).on("click", ".start", function() {
@@ -466,8 +479,8 @@ $(document).on("click", ".start", function() {
     $(this).removeClass("clicked");
     next();
   });
-	event.preventDefault();
-	let bot_name = $(this).parent().attr('data-bot-name');
+  event.preventDefault();
+  let bot_name = $(this).parent().attr('data-bot-name');
   send_ipc_exec("start "+bot_name);
 });
 
@@ -476,7 +489,7 @@ $(document).on("click", ".stop", function() {
     $(this).removeClass("clicked");
     next();
   });
-	let bot_name = $(this).parent().attr('data-bot-name');
+  let bot_name = $(this).parent().attr('data-bot-name');
   send_ipc_exec("stop "+bot_name);
 });
 
@@ -488,13 +501,13 @@ $(document).on("click", ".bot_sett", function() {
 	}
 	else{
     $(this).addClass("clicked").delay(4000).queue(function(next){
-    $(this).removeClass("clicked");
-    next();
+      $(this).removeClass("clicked");
+      next();
     });
     let bot_name = $(this).parent().attr('data-bot-name');
     let bot_steamID = $(this).parent().attr('data-bot-steamID') || accounts_ASF[bot_name].s_SteamID;
     start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot_name  +" --window-size=1000,1000 --app=https://steamcommunity.com/profiles/"+bot_steamID);
-	}
+  }
 });
 
 $(document).on("dblclick", ".file", function() {
@@ -517,24 +530,76 @@ $(document).on("dblclick", ".file", function() {
 
 
 $(document).on("click", ".bot_name", function() {
-    let contrl_itm = $(this).parent().attr('data-bot-name');
-    if ($( this ).parent().hasClass( "exclude" )){
-    	var index = exclude_list.indexOf(contrl_itm);
-    	exclude_list.splice(index, 1);
-      if(sel_mode === "obo"){
-        let ipc_bots_inp = document.getElementById("ipc_bots_inp");
-        if(ipc_bots_inp.value.length == 0)
-          {ipc_bots_inp.value = contrl_itm;}
-        else{
-          ipc_bots_inp.value = ipc_bots_inp.value +","+contrl_itm;
-        }
-
-      }
-    	$(this).parent().removeClass("exclude");  
-    }else{
-    	exclude_list.push(contrl_itm);
-    	$(this).parent().addClass("exclude");  
+  let ipc_bots_inp = document.getElementById("ipc_bots_inp");
+  let contrl_itm = $(this).parent().attr('data-bot-name');
+  if ($( this ).parent().hasClass( "exclude" )){
+   var index = exclude_list.indexOf(contrl_itm);
+   exclude_list.splice(index, 1);
+   if(sel_mode === "obo"){
+    if(ipc_bots_inp.value.length == 0)
+      {ipc_bots_inp.value = contrl_itm;}
+    else{
+      ipc_bots_inp.value = ipc_bots_inp.value +","+contrl_itm;
     }
+
+  }else if(sel_mode==="range"){
+    let ipc_bots_bef_aff = ipc_bots_inp.value.split("..");
+    if(ipc_bots_inp.value.length == 0)
+      {ipc_bots_inp.value = contrl_itm;}
+    else if(ipc_bots_bef_aff[1]){
+      ipc_bots_inp.value = contrl_itm;
+      ignore_all();
+    }else{
+      ipc_bots_inp.value = ipc_bots_inp.value +".."+contrl_itm;
+    }
+  }
+  $(this).parent().removeClass("exclude");  
+}else{
+  let ipc_bots_inp_all = ipc_bots_inp.value;
+  if (sel_mode==="obo"){
+
+
+// let ipc_bots_before = ipc_bots_inp_all.substring(0, str.indexOf(contrl_itm));
+let ipc_bots_bef_aff = ipc_bots_inp_all.split(contrl_itm);
+let last_ch = ipc_bots_bef_aff[0].slice(-1);
+let first_ch = ipc_bots_bef_aff[1].slice(0, 1);
+console.log("last was "+last_ch);
+console.log("first was" +first_ch);
+if (last_ch === "," && first_ch===","){
+  ipc_bots_inp.value =   ipc_bots_inp_all.replace(","+contrl_itm, "");
+  console.log(",x,");
+}else if(last_ch === ","){
+  ipc_bots_inp.value =   ipc_bots_inp_all.replace(","+contrl_itm, "");
+  console.log(",x");
+}else if(first_ch === ","){
+  ipc_bots_inp.value =   ipc_bots_inp_all.replace(contrl_itm+",", "");
+  console.log("x,");
+}else{
+  ipc_bots_inp.value =   ipc_bots_inp_all.replace(contrl_itm, "");
+  console.log("x");
+}
+}else if(sel_mode==="range"){
+  let separ = ipc_bots_inp_all.indexOf("..");
+  let ipc_bots_bef_aff = ipc_bots_inp_all.split("..");
+  if (ipc_bots_bef_aff[0]===contrl_itm && separ > 0) {
+    let new_bot_selc = ipc_bots_inp_all.replace(contrl_itm+"..", '');
+    ipc_bots_inp.value = new_bot_selc;
+
+  }else if (separ > 0){
+    let new_bot_selc = ipc_bots_inp_all.replace(".."+contrl_itm, '');
+    ipc_bots_inp.value = new_bot_selc;
+
+  }else{
+    ipc_bots_inp.value = "";
+
+  }
+}
+
+
+
+exclude_list.push(contrl_itm);
+$(this).parent().addClass("exclude");  
+}
 });
 
 
@@ -548,15 +613,15 @@ $(document).on("click", ".bot_name", function() {
 
 function error(message){
   if (no_warnings = false){
-  document.getElementById("warm").style.display = "block";
-  document.getElementById("warm_mess").textContent = message;
-  setTimeout(function(){ document.getElementById("warm").style.display = "none"; }, 7000);
-}
+    document.getElementById("warm").style.display = "block";
+    document.getElementById("warm_mess").textContent = message;
+    setTimeout(function(){ document.getElementById("warm").style.display = "none"; }, 7000);
+  }
 }
 
 
 function reorder(){
-  
+
   $("#content").children().sortDomElements(function(a,b){
 
     akey = $(a).attr("title");
@@ -571,23 +636,23 @@ function reorder(){
 function ignore_all(){
   if (local_bot_config === false && ipc_bot_config === true){
     if (exclude_list.length === Object.keys(accounts_ASF).length){
-    exclude_list.length = 0;
-    for (var k in accounts_ASF){
-     $("#bot_"+k).removeClass("exclude");
+      exclude_list.length = 0;
+      for (var k in accounts_ASF){
+       $("#bot_"+k).removeClass("exclude");
+     }
+     document.getElementById("ignore").innerHTML = "Ignore All";
    }
-   document.getElementById("ignore").innerHTML = "Ignore All";
- }
- else{
-  document.getElementById("ignore").innerHTML = "Ignore None";
-  for (var k in accounts_ASF){
-   if (accounts_ASF.hasOwnProperty(k) && exclude_list.indexOf(k) < 0) {
-    exclude_list.push(k);
-    $("#bot_"+k).addClass("exclude");  
+   else{
+    document.getElementById("ignore").innerHTML = "Ignore None";
+    for (var k in accounts_ASF){
+     if (accounts_ASF.hasOwnProperty(k) && exclude_list.indexOf(k) < 0) {
+      exclude_list.push(k);
+      $("#bot_"+k).addClass("exclude");  
+    }
   }
 }
-}
-}else if(local_bot_config == true && ipc_bot_config === false) {
-    if (exclude_list.length === Object.keys(accounts).length){
+}else{
+  if (exclude_list.length === Object.keys(accounts).length){
     exclude_list.length = 0;
     for (var k in accounts){
      $("#bot_"+k).removeClass("exclude");
@@ -722,7 +787,7 @@ function save_btn_pressed(){
 
       for (i = 0; i < supi_arr_corrected_one.length; i=i+2) {
 
-        
+
 
         var temp_name2 = supi_arr_corrected_one[0];
         var temp_value2 = supi_arr_corrected_one[1];
@@ -1025,16 +1090,16 @@ function start_asf(){
 
 
 function start_bot_sett(command){
-		
+
 	var sys = require('sys')
 	var exec = require('child_process').exec;
 	var child;
 
 	child = exec(command, function (error, stdout, stderr) {
-  		if (error !== null) {
-  			console.log('exec error: ' + error);
-  		}
-	});
+    if (error !== null) {
+     console.log('exec error: ' + error);
+   }
+ });
 }
 
 function new_window_cache(folder_name, my_url){
@@ -1076,13 +1141,28 @@ function send_ipc_req(){
 }
 
 function send_ipc_exec(command){
-$("#ipc_log").find('tbody').append( "<tr><td>req</td><td>"+ (new Date().toLocaleString()) + "</td><td>"+command+"</td></tr>" );
+  $("#ipc_log").find('tbody').append( "<tr><td>req</td><td>"+ (new Date().toLocaleString()) + "</td><td>"+command+"</td></tr>" );
 
 
   $.post("http://127.0.0.1:1242/Api/Command/"+command, function(data, status){
-  $("#ipc_log").find('tbody').append( "<tr><td>res</td><td>"+ (new Date().toLocaleString()) + "</td><td>"+JSON.stringify(data)+"</td></tr>" );
-});
+    $("#ipc_log").find('tbody').append( "<tr><td>res</td><td>"+ (new Date().toLocaleString()) + "</td><td>"+JSON.stringify(data)+"</td></tr>" );
+  });
 
-$("#log_form").scrollTop($("#log_form")[0].scrollHeight);
+  $("#log_form").scrollTop($("#log_form")[0].scrollHeight);
 
+}
+
+function sel_type(){
+  if (sel_mode === "obo"){
+    let ipc_command = document.getElementById("sel_type").innerText = "Range";
+    sel_mode = "range";
+
+  }else{
+    let ipc_command = document.getElementById("sel_type").innerText = "One by One";
+    sel_mode = "obo";
+
+  }
+  ignore_all();
+  let ipc_bots_inp = document.getElementById("ipc_bots_inp");
+  ipc_bots_inp.value = "";
 }

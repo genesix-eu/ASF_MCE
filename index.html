@@ -25,7 +25,7 @@
 </div>
 
 <div id="editor">
-<div class="tac">
+<div id="menu_bar" class="tac">
   <label id="lbc_l" class="btn btn-info btn-sm top_menu_corr">
     Local Bots Config
     <input type="checkbox" checked autocomplete="off" id="lbc">
@@ -64,11 +64,12 @@
 </label>
 <span id = "sel_form">
   <button type="button" id="ignore" class="btn btn-warning btn-sm top_menu" onclick="ignore_all();">Ignore All</button>
-  <button type="button" id="sel_type" class="btn btn-warning btn-sm top_menu" onclick="">One by One</button>
+  <button type="button" id="sel_type" class="btn btn-warning btn-sm top_menu" onclick="sel_type();">One by One</button>
 </span>
-<button type="button" id="asf_app" class="btn btn-info btn-sm top_menu" onclick="start_asf();">Start ASF</button>
+
 <button type="button" id="ipc" class="btn btn-info btn-sm top_menu" onclick='$("#ipc_form").toggle();'>IPC</button>
 <button type="button" id="log" class="btn btn-info btn-sm top_menu" onclick='$("#log_form").toggle();'>Log</button>
+<button type="button" id="asf_app" class="btn btn-info btn-sm top_menu" onclick="start_asf();">Start ASF</button>
 </div>
 
 <br>
@@ -87,7 +88,7 @@
 
 
 
-
+<div id="local_config_forms">
 <span id="Enabled_form" class="box1" >Enabled:
 <div class="btn-group h_pad20" data-toggle="buttons" >
 
@@ -151,6 +152,7 @@
 <div class="form-group" id="More_form">
   <label for="comment">JSON:</label>
   <textarea class="form-control" rows="3" id="More_input" placeholder="{Valid JSON code... }"></textarea>
+</div>
 </div>
 
 <div class="form-group" id="c2fa_form">

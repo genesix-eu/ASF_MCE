@@ -134,12 +134,31 @@ body{
 
 .bot_acctive{
 	border: 2px solid green;
-    
+
     border-left-width: 8px;
     background-repeat: no-repeat; 
     background-position: left top; 
     background-size: auto 100%;
 }
+
+
+.bot_ready{
+
+    animation-fill-mode: forwards;
+    animation-name: go_ready;
+    animation-duration: 3s;
+}
+
+
+@keyframes go_ready {
+
+    100% {color:black; border-left-width: 8px; border-color: aqua;}
+}
+
+
+
+
+
 
 .tac{
 	text-align: center;
@@ -171,7 +190,7 @@ body{
     max-height: 500px;
     position: fixed;
     bottom: 0px;
-    left: 0px
+    left: 0px;
     z-index: 3;
     background: gray;
     overflow: auto;
@@ -179,6 +198,7 @@ body{
 
 #ipc_log{
     width: 99%;
+    z-index: 3;
 }
 
 
@@ -272,10 +292,10 @@ td, th {
 }
 
 #ipc_right{
-overflow-y: scroll;
-float: right;
-width: 24%;
-height: 306px;
+    overflow-y: scroll;
+    float: right;
+    width: 24%;
+    height: 306px;
 }
 
 #ipc_right::-webkit-scrollbar { 
@@ -302,7 +322,31 @@ input[type="checkbox"] {
 }
 
 @keyframes click_anime {
-    0%   {color:darkgray; background-color: white; transform: scale(1.2);}
-    50%  {color:white; background-color: darkgray;  }
+    0%   {color:darkgray; background-color: white;}
+    50%  {color:white; background-color: darkgray;}
     100% {color:black; background-color: transparent;}
 }
+
+#menu_bar{
+    position: fixed;
+    z-index: 4;
+    width: 100%;
+    background: gray;
+    left: 0px;
+}
+/*
+#local_config_forms{
+    position: fixed;
+    z-index: 4;
+    width: 100%;
+    background: gray;
+    left: 0px;
+}
+
+#ipc_form{
+    position: fixed;
+    z-index: 4;
+    width: 100%;
+    background: gray;
+    left: 0px;
+}*/
