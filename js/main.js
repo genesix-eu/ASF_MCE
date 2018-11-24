@@ -683,7 +683,7 @@ function reorder(){
 
 function ignore_all(how){
   if (local_bot_config === false && ipc_bot_config === true){
-    console.log(exclude_list.length +" - "+Object.keys(accounts_ASF).length);
+    // console.log(exclude_list.length +" - "+Object.keys(accounts_ASF).length);
     if (exclude_list.length === Object.keys(accounts_ASF).length){
       exclude_list.length = 0;
       for (var k in accounts_ASF){
