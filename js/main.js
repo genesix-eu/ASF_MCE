@@ -542,7 +542,7 @@ $(document).on("click", ".bot_sett", function() {
 	if (event.ctrlKey) {
 		let bot_name = $(this).parent().attr('data-bot-name');
 		let bot_steamID = $(this).parent().attr('data-bot-steamID') || accounts_ASF[bot_name].s_SteamID;
-		start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot_name  +" --window-size=1000,1000 --app=https://steamcommunity.com/profiles/"+bot_steamID);
+		start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot_name  +" --window-size=1000,1000 --url=https://steamcommunity.com/profiles/"+bot_steamID);
 	}
 	else{
     $(this).addClass("clicked").delay(4000).queue(function(next){

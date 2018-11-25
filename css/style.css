@@ -18,7 +18,8 @@ body{
 
 .file{
 	display: inline-block;
-	border: 1px solid silver;
+	border: 2px solid silver;
+	border-left-width: 8px;
 	padding: 11px 0 0 80px;
 	margin: 6px;
 	position: relative;
@@ -30,10 +31,10 @@ body{
 	background-position: left top; 
 	background-size: auto 100%;
 
-    background-image: url('');
-    background-repeat: no-repeat;
-    background-position: left top;
-    background-size: auto 100%;
+	background-image: url('');
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-size: auto 100%;
 }
 
 
@@ -43,116 +44,125 @@ body{
 }
 
 .file:hover{
-    border: 2px solid yellow;
-    border-left-width: 8px;
+	border: 2px solid yellow;
+	border-left-width: 8px;
 }
 
 
 
 .level  {
-    visibility: hidden;
-    width: 40px;
-    border: 1px solid silver;
-    text-align: center;
-    bottom: 1px;
-    right: 0px;
-    position: absolute;
-    z-index: 1;
+	visibility: hidden;
+	width: 40px;
+	border: 1px solid silver;
+	text-align: center;
+	bottom: 1px;
+	right: 0px;
+	position: absolute;
+	z-index: 1;
 
 }
 .stop  {
-    visibility: hidden;
-    width: 40px;
-    border: 1px solid silver;
-    text-align: center;
-    bottom: 1px;
-    right: 43px;
-    position: absolute;
-    z-index: 1;
-    
+	visibility: hidden;
+	width: 40px;
+	border: 1px solid silver;
+	text-align: center;
+	bottom: 1px;
+	right: 43px;
+	position: absolute;
+	z-index: 1;
+
 }
 
 .start  {
-    visibility: hidden;
-    width: 40px;
-    border: 1px solid silver;
-    text-align: center;
-    bottom: 1px;
-    right: 86px;
-    position: absolute;
-    z-index: 1;
+	visibility: hidden;
+	width: 40px;
+	border: 1px solid silver;
+	text-align: center;
+	bottom: 1px;
+	right: 86px;
+	position: absolute;
+	z-index: 1;
 }
 
 .bot_sett  {
-    visibility: hidden;
-    width: 40px;
-    border: 1px solid silver;
-    text-align: center;
-    bottom: 1px;
-    right: 128px;
-    position: absolute;
-    z-index: 1;
+	visibility: hidden;
+	width: 40px;
+	border: 1px solid silver;
+	text-align: center;
+	bottom: 1px;
+	right: 128px;
+	position: absolute;
+	z-index: 1;
 
 }
 
 .bot_name  {
-    position: absolute;
-    top: 0px;
-    left: 72px;
-    width: 168px;
-    height: 37px;
-    
-    text-align: center;
-    z-index: 1;
+	position: absolute;
+	top: 0px;
+	left: 72px;
+	width: 168px;
+	height: 37px;
+
+	text-align: center;
+	z-index: 1;
 }
 
 
 .file:hover .level {
-    visibility: visible;
+	visibility: visible;
 }
 .file:hover .start {
-    visibility: visible;
+	visibility: visible;
 }
 .file:hover .stop {
-    visibility: visible;
+	visibility: visible;
 }
 .file:hover .bot_sett {
-    visibility: visible;
+	visibility: visible;
 }
 
 
 
 .bot_dissabled{
 	border: 2px solid orange;
-    border-left-width: 8px;
+	border-left-width: 8px;
+	border-radius: 5px;
 }
 
 .bot_paused{
 	border: 2px solid cadetblue;
-    border-left-width: 8px;
+	border-left-width: 8px;
+	border-radius: 5px;
 }
 
 .bot_acctive{
 	border: 2px solid green;
-
-    border-left-width: 8px;
-    background-repeat: no-repeat; 
-    background-position: left top; 
-    background-size: auto 100%;
+	border-left-width: 8px;
+	background-repeat: no-repeat; 
+	background-position: left top; 
+	background-size: auto 100%;
+	border-radius: 5px;
 }
 
 
 .bot_ready{
-
-    animation-fill-mode: forwards;
-    animation-name: go_ready;
-    animation-duration: 3s;
+	border-color: aqua;
+	border: 2px solid aqua;
+	border-left-width: 8px;
+	animation-name: go_ready;
+	animation-duration: 3s;
+	border-radius: 5px;
 }
+
+/*.bot_ready:hover{
+	border-color: yellow;
+}*/
 
 
 @keyframes go_ready {
-
-    100% {color:black; border-left-width: 8px; border-color: aqua;}
+	33% {border-color: silver;}
+	66% {border-color: white;}
+	100% {border-color: aqua;}
 }
 
 
@@ -186,65 +196,65 @@ body{
 }
 
 #log_form {
-    width: 100%;
-    max-height: 500px;
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    z-index: 3;
-    background: gray;
-    overflow: auto;
+	width: 100%;
+	max-height: 500px;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	z-index: 3;
+	background: gray;
+	overflow: auto;
 }
 
 #ipc_log{
-    width: 99%;
-    z-index: 3;
+	width: 99%;
+	z-index: 3;
 }
 
 
 #ipc_command{
-    resize: both;
-    width: 15%;
+	resize: both;
+	width: 15%;
 }
 
 #ipc_bots_inp{
-    resize: both;
-    width: 45%;
+	resize: both;
+	width: 45%;
 }
 
 #ipc_arg{
-    resize: both;
-    width: 30%;
+	resize: both;
+	width: 30%;
 }
 
 #send_ipc, #select_command{
-    position: relative;
-    top: -2px;
+	position: relative;
+	top: -2px;
 }
 
 #ipc_commandautocomplete-list{
-    display: block;
+	display: block;
 
-    width: 15%;
+	width: 15%;
 }
 
 .autocomplete-items{
-    background-color: darkgray;
-    width: fit-content;
-    padding: 0 10px;
-    z-index: 2;
-    display: -webkit-inline-box;
+	background-color: darkgray;
+	width: fit-content;
+	padding: 0 10px;
+	z-index: 2;
+	display: -webkit-inline-box;
 }
 
 .autocomplete-active{
-    border: 1px solid grey;
-    font-size: 130%;
-    padding: 0 2px;
+	border: 1px solid grey;
+	font-size: 130%;
+	padding: 0 2px;
 }
 
 #save{
-    top: -4px;
-    position: relative;
+	top: -4px;
+	position: relative;
 }
 
 
@@ -276,35 +286,35 @@ body{
 
 #table_restrain{
 	width: 75%;
-    overflow-y: scroll;
-    height: 262px;
-    display: block;
+	overflow-y: scroll;
+	height: 262px;
+	display: block;
 }
 
 #table_restrain::-webkit-scrollbar { 
-    display: none; 
+	display: none; 
 }
 
 td, th {
 	border: 1px solid silver;
 	padding: 0 8px;
-    width: auto;
+	width: auto;
 }
 
 #ipc_right{
-    overflow-y: scroll;
-    float: right;
-    width: 24%;
-    height: 306px;
+	overflow-y: scroll;
+	float: right;
+	width: 24%;
+	height: 306px;
 }
 
 #ipc_right::-webkit-scrollbar { 
-    display: none; 
+	display: none; 
 }
 
 
 input[type="checkbox"] {
-    display: none
+	display: none
 }
 
 .top_menu{
@@ -312,27 +322,27 @@ input[type="checkbox"] {
 	position: relative;
 }
 .top_menu_corr{
-    top: 4px;
-    position: relative;
+	top: 4px;
+	position: relative;
 }
 
 .clicked{
-    animation-name: click_anime;
-    animation-duration: 3s;
+	animation-name: click_anime;
+	animation-duration: 3s;
 }
 
 @keyframes click_anime {
-    0%   {color:darkgray; background-color: white;}
-    50%  {color:white; background-color: darkgray;}
-    100% {color:black; background-color: transparent;}
+	0%   {color:darkgray; background-color: white;}
+	50%  {color:white; background-color: darkgray;}
+	100% {color:black; background-color: transparent;}
 }
 
 #menu_bar{
-    position: fixed;
-    z-index: 4;
-    width: 100%;
-    background: gray;
-    left: 0px;
+	position: fixed;
+	z-index: 4;
+	width: 100%;
+	background: gray;
+	left: 0px;
 }
 /*
 #local_config_forms{
