@@ -66,77 +66,6 @@ $(document).ready(function(){
 
 
 
-  function get_ipc_bots(warn, update){
-   var xmlhttp = new XMLHttpRequest();
-  // try{
-   xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-     var res = JSON.parse(this.responseText);
-     ipc_bot_config = true;
-     accounts_ASF_prev = accounts_ASF;
-     accounts_ASF = res.Result;
-     
-     delete accounts_ASF.minimal;
-     delete accounts_ASF.example;
-     // console.log(accounts_ASF);
-     document.getElementById("asf_app").style.display = "none";
-     if (local_bot_config || update){
-      for (var key in accounts_ASF) {
-        if (accounts_ASF[key].IsConnectedAndLoggedOn === true &&  ( key !== "minimal" && key !== "example" )){
-          if(!$("#bot_" + key).hasClass("bot_ready")){
-            var element = document.getElementById("bot_" + key);
-            element.classList.add("bot_ready");
-            element.style.backgroundImage = "url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg')"
-          }
-        }else{
-          var element = document.getElementById("bot_" + key);
-          element.classList.remove("bot_ready");
-        }
-
-      }
-      // console.log("UPDATE BOTS!");
-      // console.log("Will check for ASF IPC changes in 15s");
-      setTimeout(function(){ get_ipc_bots(false, true); }, 15000);
-
-    }
-    else{
-      for (var key in accounts_ASF) {
-        if (accounts_ASF[key].IsConnectedAndLoggedOn === false &&  ( key !== "minimal" && key !== "example" )){$('div#content').append(
-          '<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="file bot_dissabled" id="bot_'+key+'">'+
-          '<span class="bot_name"> '+ key +' </span>'+
-          '<span class="bot_sett"> &#x27B2; </span>'+
-          '<span class="start"> &#9658; </span>'+
-          '<span class="stop"> &#9724; </span>'+
-          '<span class="level">' + "!" + '</span>'+
-          
-
-
-          '</span>');}
-          else if (key !== "minimal" && key !== "example" ){$(
-            'div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="file bot_ready" id="bot_'+key+'" style="' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); " + '"">'+
-            '<span class="bot_name"> '+ key +' </span>'+
-            '<span class="bot_sett"> &#x27B2; </span>'+
-            '<span class="start"> &#9658; </span>'+
-            '<span class="stop"> &#9724; </span>'+
-            '<span class="level">' +  "!" + '</span>'+
-
-            '</span>');}
-          }
-          setTimeout(function(){ get_ipc_bots(false,true); }, 15000);
-        }
-
-      }
-    };
-    xmlhttp.onerror = function(e){
-      if (warn===true) {error("ASF not running or ASF IPC is inaccessible!");}
-      setTimeout(function(){ get_ipc_bots(false); }, 30000);
-      console.log("Will check for ASF IPC in 30s");
-      ipc_bot_config = false;
-    };
-    xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
-    xmlhttp.send();
-
-  }
 
 
 
@@ -576,7 +505,7 @@ $(document).on("click", ".privacy", function() {
 });
 
 
-$(document).on("dblclick", ".file", function() {
+$(document).on("dblclick", ".bot", function() {
 	var bot_name = $(this).attr('data-bot-name');
 	$.post("http://127.0.0.1:1242/Api/Command/2fa "+bot_name, function(data, status){
 		let t_2fa = data.Result.split(" 2FA Token: ");
@@ -1305,3 +1234,76 @@ function create_bots( loaded_from ){
     }
   }
 }
+
+
+  function get_ipc_bots(warn, update){
+   var xmlhttp = new XMLHttpRequest();
+  // try{
+   xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     var res = JSON.parse(this.responseText);
+     ipc_bot_config = true;
+     accounts_ASF_prev = accounts_ASF;
+     accounts_ASF = res.Result;
+     
+     delete accounts_ASF.minimal;
+     delete accounts_ASF.example;
+     // console.log(accounts_ASF);
+     document.getElementById("asf_app").style.display = "none";
+     if (local_bot_config || update){
+      for (var key in accounts_ASF) {
+        if (accounts_ASF[key].IsConnectedAndLoggedOn === true &&  ( key !== "minimal" && key !== "example" )){
+          if(!$("#bot_" + key).hasClass("bot_ready")){
+            var element = document.getElementById("bot_" + key);
+            element.classList.add("bot_ready");
+            element.style.backgroundImage = "url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg')"
+          }
+        }else{
+          var element = document.getElementById("bot_" + key);
+          element.classList.remove("bot_ready");
+        }
+
+      }
+      // console.log("UPDATE BOTS!");
+      // console.log("Will check for ASF IPC changes in 15s");
+      setTimeout(function(){ get_ipc_bots(false, true); }, 15000);
+
+    }
+    else{
+      for (var key in accounts_ASF) {
+        if (accounts_ASF[key].IsConnectedAndLoggedOn === false &&  ( key !== "minimal" && key !== "example" )){$('div#content').append(
+          '<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="bot bot_dissabled" id="bot_'+key+'">'+
+          '<span class="bot_name"> '+ key +' </span>'+
+          '<span class="bot_sett bot_action"> &#x27B2; </span>'+
+          '<span class="start bot_action"> &#9658; </span>'+
+          '<span class="stop bot_action"> &#9724; </span>'+
+          '<span class="level bot_action">' + "!" + '</span>'+
+          
+
+
+          '</span>');}
+          else if (key !== "minimal" && key !== "example" ){$(
+            'div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="bot bot_ready" id="bot_'+key+'" style="' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); " + '"">'+
+            '<span class="bot_name"> '+ key +' </span>'+
+            '<span class="bot_sett bot_action"> &#x27B2; </span>'+
+            '<span class="start bot_action"> &#9658; </span>'+
+            '<span class="stop bot_action"> &#9724; </span>'+
+            '<span class="level bot_action">' +  "!" + '</span>'+
+
+            '</span>');}
+          }
+          setTimeout(function(){ get_ipc_bots(false,true); }, 15000);
+        }
+
+      }
+    };
+    xmlhttp.onerror = function(e){
+      if (warn===true) {error("ASF not running or ASF IPC is inaccessible!");}
+      setTimeout(function(){ get_ipc_bots(false); }, 30000);
+      console.log("Will check for ASF IPC in 30s");
+      ipc_bot_config = false;
+    };
+    xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
+    xmlhttp.send();
+
+  }
