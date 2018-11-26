@@ -24,8 +24,6 @@ if (fs.existsSync(process.cwd()+"\\ASF\\config\\")) {
 }
 
 
-
-
 //var user_config = require(process.cwd()+"\\js\\config.json");
 
 var accounts = {};
@@ -37,7 +35,7 @@ var local_bot_config = false;
 var ipc_bot_config = false;
 var sel_mode = "obo";
 
-var ipc_valid_commands = ["2fa","2fano","2faok","addlicense","balance","exit","level","loot","loot@","loot^","nickname","pause","play","redeem","redeem^","restart","resume","stats","start","status","stop","transfer","transfer@","transfer^","unpack","update","version"];
+var ipc_valid_commands = ["2fa","2fano","2faok","addlicense","balance","exit","level","loot","loot@","loot^","nickname","pause","play","privacy","redeem","redeem^","restart","resume","stats","start","status","stop","transfer","transfer@","transfer^","unpack","update","version"];
 
 
 var config_dir = process.cwd()+"\\ASF\\config";
@@ -110,6 +108,7 @@ $(document).ready(function(){
           '<span class="start"> &#9658; </span>'+
           '<span class="stop"> &#9724; </span>'+
           '<span class="level">' + "!" + '</span>'+
+          
 
 
           '</span>');}
@@ -137,19 +136,26 @@ $(document).ready(function(){
     xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
     xmlhttp.send();
 
-  // }catch(e){
-  //   error("ASF not running or ASF IPC is inaccessible!");
-  // };
-}
-
-
-setTimeout(function(){ get_ipc_bots(true); }, 2000);
+  }
 
 
 
 
-fs.readdir(config_dir, function (err, files) {
-	if (err) {
+
+
+
+
+
+
+
+
+  setTimeout(function(){ get_ipc_bots(true); }, 4000);
+
+
+
+
+  fs.readdir(config_dir, function (err, files) {
+   if (err) {
     error(err);
     document.getElementById("lbc_l").style.display = "none";
     // console.log("ASF config folder with bots was not found!");
@@ -164,29 +170,20 @@ fs.readdir(config_dir, function (err, files) {
     if (file != undefined){
      fs.lstat(config_dir+'\\'+file, function(err, stats) {
 
-       var n = file.indexOf('.');
-       var just_name = file.substring(0, n != -1 ? n : n.length);
-       var ext = file.split('.').pop();
-       if (ext=='json' && file != "example.json" &&  file != "minimal.json" && file != "ASF.json"){
+      var n = file.indexOf('.');
+      var just_name = file.substring(0, n != -1 ? n : n.length);
+      var ext = file.split('.').pop();
+      if (ext=='json' && file != "example.json" &&  file != "minimal.json" && file != "ASF.json"){
         var temp_name = config_dir+"\\"+file;
         accounts[just_name] = require(temp_name);
-        
-        let steamID =  Object.is(accounts[just_name].steamID, undefined) ? "" : accounts[just_name].steamID;
-        let avatarHash =  Object.is(accounts[just_name].avatarHash, undefined) ? "" : "url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/"+accounts[just_name].avatarHash + "_full.jpg')";
-        let steamLevel =  Object.is(accounts[just_name].steamLevel, undefined) ? "!" : accounts[just_name].steamLevel;
 
-        if (accounts[just_name].Enabled === false){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+ steamID+'" class="file '+ ext +' bot_dissabled" id="bot_'+just_name+'" style='+ '"' + "background-image: " + avatarHash + "; background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + steamLevel + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-        else if (accounts[just_name].Paused === true ){$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+steamID+'"  class="file '+ ext +' bot_paused" id="bot_'+just_name+'" style='+ '"' + "background-image: " + avatarHash + "; background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + steamLevel + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
-        else{$('div#content').append('<span data-bot-name="'+just_name+'" data-bot-steamID="'+steamID+'"  class="file '+ ext +' bot_acctive" id="bot_'+just_name+'" style='+ '"' + "background-image: " + avatarHash + "; background-repeat: no-repeat; background-position: left top; background-size: auto 100% ;" + '""><span class="level">' + steamLevel + '</span><span class="bot_name"> '+ just_name +' </span><span class="start"> &#9658; </span><span class="stop"> &#9724; </span><span class="bot_sett"> &#x27B2; </span></span>');}
       }
-
-
     });
-
    }
  });
-     // console.log(accounts);
-   });
+
+  setTimeout(function(){   create_bots('local'); }, 500);
+});
 
 
 
@@ -551,9 +548,33 @@ $(document).on("click", ".bot_sett", function() {
     });
     let bot_name = $(this).parent().attr('data-bot-name');
     let bot_steamID = $(this).parent().attr('data-bot-steamID') || accounts_ASF[bot_name].s_SteamID;
-    start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot_name  +" --window-size=1000,1000 --app=https://steamcommunity.com/profiles/"+bot_steamID);
+    start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot_name  +" --window-size=1000,1000 steamcommunity.com/profiles/"+bot_steamID);
   }
 });
+
+
+$(document).on("click", ".own_games", function() {
+  let bot_name = $(this).parent().attr('data-bot-name');
+  let bot_steamID = $(this).parent().attr('data-bot-steamID');
+  $(this).addClass("clicked").delay(4000).queue(function(next){
+    $(this).removeClass("clicked");
+    next();
+  });
+
+  nw.Shell.openExternal('https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key='+user_config.steamAPIKey+'&steamid='+bot_steamID);
+});
+
+
+
+$(document).on("click", ".privacy", function() {
+  $(this).addClass("clicked").delay(4000).queue(function(next){
+    $(this).removeClass("clicked");
+    next();
+  });
+  let bot_name = $(this).parent().attr('data-bot-name');
+  send_ipc_exec("privacy "+bot_name +" 3,3,1,1,3,3,1");
+});
+
 
 $(document).on("dblclick", ".file", function() {
 	var bot_name = $(this).attr('data-bot-name');
@@ -1216,6 +1237,10 @@ function send_ipc_exec(command){
   });
 
   $("#log_form").scrollTop($("#log_form")[0].scrollHeight);
+  setTimeout(function() {
+    $("#log_form").scrollTop($("#log_form")[0].scrollHeight);
+  }, 2000);
+  
 
 }
 
@@ -1238,4 +1263,45 @@ function sel_type(){
   }
 
 
+}
+
+
+function create_bots( loaded_from ){
+
+  
+  if (loaded_from === "local"){
+    for (var key in accounts) {
+      let steamID =  Object.is(accounts[key].steamID, undefined) ? "" : accounts[key].steamID;
+      let avatarHash =  Object.is(accounts[key].avatarHash, undefined) ? "" : "url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/"+accounts[key].avatarHash + "_full.jpg')";
+      let steamLevel =  Object.is(accounts[key].steamLevel, undefined) ? "!" : accounts[key].steamLevel;
+
+      if (accounts[key].Enabled === false){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+ steamID+'" class="bot bot_dissabled" id="bot_'+key+'" style='+ '"' + "background-image: " + avatarHash + ";" + '"">'+
+        '<span class="bot_name"> '+ key +' </span>'+
+        '<span class="bot_sett bot_action"> &#x27B2; </span>'+
+        '<span class="start bot_action"> &#9658; </span>'+
+        '<span class="stop bot_action"> &#9724; </span>'+
+        '<span class="level bot_action">' + steamLevel + '</span>'+
+        '<span class="privacy bot_action"> P </span>'+
+        '<span class="own_games bot_action"> G </span>'+
+        '</span>');}
+      else if (accounts[key].Paused === true ){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+steamID+'"  class="bot bot_paused" id="bot_'+key+'" style='+ '"' + "background-image: " + avatarHash + ";" + '"">'+
+        '<span class="bot_name"> '+ key +' </span>'+
+        '<span class="bot_sett bot_action"> &#x27B2; </span>'+
+        '<span class="start bot_action"> &#9658; </span>'+
+        '<span class="stop bot_action"> &#9724; </span>'+
+        '<span class="level bot_action">' + steamLevel + '</span>'+
+        '<span class="privacy bot_action"> P </span>'+
+        '<span class="own_games bot_action"> G </span>'+
+        '</span>');}
+      else{$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+steamID+'"  class="bot bot_acctive" id="bot_'+key+'" style='+ '"' + "background-image: " + avatarHash + ";" + '"">'+
+        '<span class="bot_name"> '+ key +' </span>'+
+        '<span class="bot_sett bot_action"> &#x27B2; </span>'+
+        '<span class="start bot_action"> &#9658; </span>'+
+        '<span class="stop bot_action"> &#9724; </span>'+
+        '<span class="level bot_action">' + steamLevel + '</span>'+
+        '<span class="privacy bot_action"> P </span>'+
+        '<span class="own_games bot_action"> G </span>'+
+        '</span>');}
+    }
+  }
 }
