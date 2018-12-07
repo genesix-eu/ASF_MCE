@@ -1,0 +1,26 @@
+.mini{
+	
+}
+
+.bot {
+	margin: 2px 5px;
+	height: 36px;
+	width: 125px;
+	cursor: default;
+	background-size: 0 0;
+	border-radius: 0px;
+	font-size: 75%;
+}
+
+.bot_action{
+	display: none;
+}
+
+.bot_name {
+	top: 0px;
+	left: 0px;
+	width: 115px;
+	height: 32px;
+	text-align: center;
+	display: inline-block;
+}

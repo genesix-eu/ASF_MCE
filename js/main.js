@@ -1197,7 +1197,7 @@ function sel_type(){
 
 function create_bots( loaded_from ){
 
-  
+
   if (loaded_from === "local"){
     for (var key in accounts) {
       let steamID =  Object.is(accounts[key].steamID, undefined) ? "" : accounts[key].steamID;
@@ -1236,8 +1236,8 @@ function create_bots( loaded_from ){
 }
 
 
-  function get_ipc_bots(warn, update){
-   var xmlhttp = new XMLHttpRequest();
+function get_ipc_bots(warn, update){
+ var xmlhttp = new XMLHttpRequest();
   // try{
    xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -1305,5 +1305,16 @@ function create_bots( loaded_from ){
     };
     xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
     xmlhttp.send();
+
+  }
+
+
+  function mini_full(){
+    let my_id = document.getElementById("after_css");
+        if ( my_id.href.indexOf('css/blank.css') >= 0 ){
+      my_id.href = "./css/mini.css";
+    }else{
+      my_id.href = "./css/blank.css";
+    }
 
   }
