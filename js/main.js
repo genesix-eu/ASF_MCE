@@ -35,7 +35,7 @@ var local_bot_config = false;
 var ipc_bot_config = false;
 var sel_mode = "obo";
 
-var ipc_valid_commands = ["2fa","2fano","2faok","addlicense","balance","exit","level","loot","loot@","loot^","nickname","pause","play","privacy","redeem","redeem^","restart","resume","stats","start","status","stop","transfer","transfer@","transfer^","unpack","update","version"];
+var ipc_valid_commands = ["2fa","2fano","2faok","addlicense","balance","exit","level","loot","loot@","loot^","nickname","owns","pause","play","privacy","redeem","redeem^","restart","resume","stats","start","status","stop","transfer","transfer@","transfer^","unpack","update","version"];
 
 
 var config_dir = process.cwd()+"\\ASF\\config";
