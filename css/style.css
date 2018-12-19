@@ -55,7 +55,7 @@ body{
 	border-left-width: 8px;
 }
 
-.stop:hover, .start:hover, .bot_sett:hover, .level:hover, .bot_name:hover, .privacy:hover, .own_games:hover{
+.stop:hover, .start:hover, .bot_sett:hover, .level:hover, .bot_name:hover, .btn0:hover, .btn1:hover{
 	border: 1px solid white;
 }
 
@@ -109,12 +109,12 @@ body{
 	right: 2px;
 }
 
-.privacy  {
+.btn0  {
 	top: 75px;
 	left: 2px;
 }
 
-.own_games  {
+.btn1  {
 	top: 75px;
 	left: 45px;
 }

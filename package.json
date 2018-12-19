@@ -2,7 +2,7 @@
   "main": "index.html",
   "name": "ASF_MCE",
   "description": "ASF_MCE",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "keywords": [
     "node-webkit",
     "nwjs",

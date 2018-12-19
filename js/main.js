@@ -8,6 +8,10 @@ win.x=0;
 win.y=0;
 
 
+
+
+
+
 if (fs.existsSync(process.cwd()+"\\js\\config_personal.json")) {
   var user_config = require(process.cwd()+"\\js\\config_personal.json");
   // console.log("config_personal");
@@ -482,27 +486,53 @@ $(document).on("click", ".bot_sett", function() {
 });
 
 
-$(document).on("click", ".own_games", function() {
+
+
+$(document).on("click", ".btn0", 
+  function() {
+    $(this).addClass("clicked").delay(4000).queue(function(next){
+      $(this).removeClass("clicked");
+      next();
+    });
+    let bot_name = $(this).parent().attr('data-bot-name');
+
+    custom_fun(user_config.custom_buttons[0].action, bot_name, )
+  // send_ipc_exec("privacy "+bot_name +" 3,3,1,1,3,3,1");
+}
+);
+
+
+$(document).on("click", ".btn1", function() {
   let bot_name = $(this).parent().attr('data-bot-name');
   let bot_steamID = $(this).parent().attr('data-bot-steamID');
   $(this).addClass("clicked").delay(4000).queue(function(next){
     $(this).removeClass("clicked");
     next();
   });
-
-  nw.Shell.openExternal('https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key='+user_config.steamAPIKey+'&steamid='+bot_steamID);
+  custom_fun(1, bot_name, bot_steamID);
+  // nw.Shell.openExternal('https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key='+user_config.steamAPIKey+'&steamid='+bot_steamID);
 });
 
 
 
-$(document).on("click", ".privacy", function() {
-  $(this).addClass("clicked").delay(4000).queue(function(next){
-    $(this).removeClass("clicked");
-    next();
-  });
-  let bot_name = $(this).parent().attr('data-bot-name');
-  send_ipc_exec("privacy "+bot_name +" 3,3,1,1,3,3,1");
-});
+function custom_fun(type, name, steamID){
+  switch(type) {
+    case 0:
+    send_ipc_exec("privacy "+name +" 3,3,1,1,3,3,1");
+    break;
+    case 1:
+    nw.Shell.openExternal('https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key='+user_config.steamAPIKey+'&steamid='+steamID);
+    break;
+    default:
+    console.log(type, name, steamID);
+  }
+
+
+
+  console.log(type, name,);
+
+}
+
 
 
 $(document).on("dblclick", ".bot", function() {
@@ -1204,40 +1234,53 @@ function create_bots( loaded_from ){
       let avatarHash =  Object.is(accounts[key].avatarHash, undefined) ? "" : "url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/"+accounts[key].avatarHash + "_full.jpg')";
       let steamLevel =  Object.is(accounts[key].steamLevel, undefined) ? "!" : accounts[key].steamLevel;
 
-      if (accounts[key].Enabled === false){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+ steamID+'" class="bot bot_dissabled" id="bot_'+key+'" style='+ '"' + "background-image: " + avatarHash + ";" + '"">'+
-        '<span class="bot_name"> '+ key +' </span>'+
-        '<span class="bot_sett bot_action"> &#x27B2; </span>'+
-        '<span class="start bot_action"> &#9658; </span>'+
-        '<span class="stop bot_action"> &#9724; </span>'+
-        '<span class="level bot_action">' + steamLevel + '</span>'+
-        '<span class="privacy bot_action"> P </span>'+
-        '<span class="own_games bot_action"> G </span>'+
-        '</span>');}
-      else if (accounts[key].Paused === true ){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+steamID+'"  class="bot bot_paused" id="bot_'+key+'" style='+ '"' + "background-image: " + avatarHash + ";" + '"">'+
-        '<span class="bot_name"> '+ key +' </span>'+
-        '<span class="bot_sett bot_action"> &#x27B2; </span>'+
-        '<span class="start bot_action"> &#9658; </span>'+
-        '<span class="stop bot_action"> &#9724; </span>'+
-        '<span class="level bot_action">' + steamLevel + '</span>'+
-        '<span class="privacy bot_action"> P </span>'+
-        '<span class="own_games bot_action"> G </span>'+
-        '</span>');}
-      else{$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+steamID+'"  class="bot bot_acctive" id="bot_'+key+'" style='+ '"' + "background-image: " + avatarHash + ";" + '"">'+
-        '<span class="bot_name"> '+ key +' </span>'+
-        '<span class="bot_sett bot_action"> &#x27B2; </span>'+
-        '<span class="start bot_action"> &#9658; </span>'+
-        '<span class="stop bot_action"> &#9724; </span>'+
-        '<span class="level bot_action">' + steamLevel + '</span>'+
-        '<span class="privacy bot_action"> P </span>'+
-        '<span class="own_games bot_action"> G </span>'+
-        '</span>');}
-    }
-  }
-}
+      let custom_buttons = ["","","","","","",];
+      if (user_config.custom_buttons[0]){ custom_buttons[0] = '<span class="btn0 bot_action"> '+ user_config.custom_buttons[0].text +' </span>' }
+        if (user_config.custom_buttons[1]){ custom_buttons[1] = '<span class="btn1 bot_action"> '+ user_config.custom_buttons[1].text +' </span>' }
+          if (user_config.custom_buttons[2]){ custom_buttons[2] = '<span class="btn2 bot_action"> '+ user_config.custom_buttons[2].text +' </span>' }
+            if (user_config.custom_buttons[3]){ custom_buttons[3] = '<span class="btn3 bot_action"> '+ user_config.custom_buttons[3].text +' </span>' }
+              if (user_config.custom_buttons[4]){ custom_buttons[4] = '<span class="btn4 bot_action"> '+ user_config.custom_buttons[4].text +' </span>' }
+                if (user_config.custom_buttons[5]){ custom_buttons[5] = '<span class="btn5 bot_action"> '+ user_config.custom_buttons[5].text +' </span>' }
 
 
-function get_ipc_bots(warn, update){
- var xmlhttp = new XMLHttpRequest();
+
+
+
+                  if (accounts[key].Enabled === false){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+ steamID+'" class="bot bot_dissabled" id="bot_'+key+'" style='+ '"' + "background-image: " + avatarHash + ";" + '"">'+
+                    '<span class="bot_name"> '+ key +' </span>'+
+                    '<span class="bot_sett bot_action"> &#x27B2; </span>'+
+                    '<span class="start bot_action"> &#9658; </span>'+
+                    '<span class="stop bot_action"> &#9724; </span>'+
+                    '<span class="level bot_action">' + steamLevel + '</span>'+
+                    custom_buttons[0]+custom_buttons[1]+custom_buttons[2]+custom_buttons[3]+custom_buttons[4]+custom_buttons[5]+
+
+
+                    '</span>');}
+                else if (accounts[key].Paused === true ){$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+steamID+'"  class="bot bot_paused" id="bot_'+key+'" style='+ '"' + "background-image: " + avatarHash + ";" + '"">'+
+                  '<span class="bot_name"> '+ key +' </span>'+
+                  '<span class="bot_sett bot_action"> &#x27B2; </span>'+
+                  '<span class="start bot_action"> &#9658; </span>'+
+                  '<span class="stop bot_action"> &#9724; </span>'+
+                  '<span class="level bot_action">' + steamLevel + '</span>'+
+                  custom_buttons[0]+custom_buttons[1]+custom_buttons[2]+custom_buttons[3]+custom_buttons[4]+custom_buttons[5]+
+
+                  '</span>');}
+                else{$('div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+steamID+'"  class="bot bot_acctive" id="bot_'+key+'" style='+ '"' + "background-image: " + avatarHash + ";" + '"">'+
+                  '<span class="bot_name"> '+ key +' </span>'+
+                  '<span class="bot_sett bot_action"> &#x27B2; </span>'+
+                  '<span class="start bot_action"> &#9658; </span>'+
+                  '<span class="stop bot_action"> &#9724; </span>'+
+                  '<span class="level bot_action">' + steamLevel + '</span>'+
+                  custom_buttons[0]+custom_buttons[1]+custom_buttons[2]+custom_buttons[3]+custom_buttons[4]+custom_buttons[5]+
+
+                  '</span>');}
+              }
+            }
+          }
+
+
+          function get_ipc_bots(warn, update){
+           var xmlhttp = new XMLHttpRequest();
   // try{
    xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -1310,11 +1353,16 @@ function get_ipc_bots(warn, update){
 
 
   function mini_full(){
+    let my_link = "pikatchu";
+
+    if (user_config.custom_buttons && user_config.custom_buttons.length > 0){ my_link = "css/blank.css"; }
+    else{ my_link = "css/midi.css";}
+
+    if(user_config.disable_custom_btn ===  true){my_link = "css/midi.css";}
+
+
     let my_id = document.getElementById("after_css");
-        if ( my_id.href.indexOf('css/blank.css') >= 0 ){
-      my_id.href = "./css/mini.css";
-    }else{
-      my_id.href = "./css/blank.css";
-    }
+    if ( my_id.href.indexOf(my_link) >= 0 ){ my_id.href = "css/mini.css";}
+    else{ my_id.href = my_link;}
 
   }

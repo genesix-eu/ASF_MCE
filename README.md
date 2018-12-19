@@ -40,7 +40,12 @@ REMEMBER TO BACKUP YOUR CONFIG FOLDER TO SAVE LOCATION!
 To start ASF MCE execute ASF_MCE.cmd
 
 
-To install ASF MCE you can:
+Download it from here: https://github.com/genesix-eu/ASF_MCE/releases/download/v0.0.4/ASF_MCE.zip
+
+
+Or you can :
+
+This is work in progress so some features may not be fully implemented nor tested if you clone this!
 
 git clone https://github.com/genesix-eu/ASF_MCE
 
@@ -72,7 +77,7 @@ ASF_MCE/package.json
 ASF_MCE/*.*
 
 
-Or download it from here: https://github.com/genesix-eu/ASF_MCE/releases/download/v0.0.4/ASF_MCE.zip
+Download it from here: https://github.com/genesix-eu/ASF_MCE/releases/download/v0.0.4/ASF_MCE.zip
 
 
 And this my first atempt to use git and github so Keep Calm and Git Gud!
