@@ -1,0 +1,3 @@
+window.sendMessage=function(a,d){a.origin="action";rea.extension.sendMessage(a,d)};
+Registry.require(["layout","i18n"],function(){var a=Registry.get("i18n"),d=Registry.get("layout"),b=null,c=null,e=function(){b&&window.clearTimeout(b);b=null;c&&c.parentNode.removeChild(c);c=null},b=window.setTimeout(function(){$("#action").append($('<div class="lds-css ng-scope"><div class="lds-dual-ring"><div></div><div></div></div>'))},500);$(document.body).addClass(rea.FEATURES.RUNTIME.MOBILE?"mobile":"desktop");d.init("action.js",{suc:e,fail:function(){e();confirm(a.getMessage("An_internal_error_occured_Do_you_want_to_visit_the_forum_"))&&
+window.open("http://tampermonkey.net/bug")}})});

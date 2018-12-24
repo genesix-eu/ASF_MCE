@@ -572,7 +572,9 @@ $(document).on("click", ".bot_name", function() {
 		});
 
 		console.log( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot  +" --window-size=1000,1000 steamcommunity.com/profiles/"+bot_steamID);
-		start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot  +" --window-size=1000,1000 steamcommunity.com/profiles/"+bot_steamID);
+		start_bot_sett( '"C:\\PP\\chrome-win\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\ --profile-directory=" +  bot  +
+			" --window-size=1000,1000 --disk-cache-dir=d:\\cache --disable-extensions-except="+ gui.process.cwd()+"\\_data_extensions\\dhdgffkkebhmkfjojejmpbldmpobfkfo\\4.7.44_0"+
+			" steamcommunity.com/profiles/"+bot_steamID);
 		tfa(bot);
 		// setTimeout(function(){ nw.Shell.openExternal("https://store.steampowered.com/promotion/cottage_2018/"); }, 6000);
 	}
