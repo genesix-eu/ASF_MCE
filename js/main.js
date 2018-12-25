@@ -571,9 +571,27 @@ $(document).on("click", ".bot_name", function() {
 			next();
 		});
 
-		console.log( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot  +" --window-size=1000,1000 steamcommunity.com/profiles/"+bot_steamID);
-		start_bot_sett( '"C:\\PP\\chrome-win\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\ --profile-directory=" +  bot  +
-			" --window-size=1000,1000 --disk-cache-dir=d:\\cache --disable-extensions-except="+ gui.process.cwd()+"\\_data_extensions\\dhdgffkkebhmkfjojejmpbldmpobfkfo\\4.7.44_0"+
+		console.log( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\" +  bot  +
+			" --window-size=1000,1000 steamcommunity.com/profiles/"+bot_steamID);
+
+
+//tampermonkey
+// --disable-extensions-except="+ gui.process.cwd()+"\\_data_extensions\\dhdgffkkebhmkfjojejmpbldmpobfkfo\\4.7.44_0"
+
+//homebrew
+// --disable-extensions-except="+ gui.process.cwd()+"\\_data_extensions\\ilbhchfjplnbaphnohgbajieamhekfjf\\0.1_0"
+
+
+
+// --enable-easy-off-store-extension-install
+//C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
+//C:\\PP\\chrome-win\\chrome.exe
+//C:\\Users\\JohnnSy\\AppData\\Local\\Google\\Chrome SxS\\Application\\chrome.exe
+
+
+		start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\ --profile-directory=" +  bot  +
+			" --window-size=1000,1000 --enable-easy-off-store-extension-install --disk-cache-dir=d:\\cache --no-default-browser-check" +
+			' --disable-extensions-except="'+ gui.process.cwd()+'\\_data_extensions\\ilbhchfjplnbaphnohgbajieamhekfjf\\0.1_0"' +
 			" steamcommunity.com/profiles/"+bot_steamID);
 		tfa(bot);
 		// setTimeout(function(){ nw.Shell.openExternal("https://store.steampowered.com/promotion/cottage_2018/"); }, 6000);
