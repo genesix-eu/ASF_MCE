@@ -12,5 +12,12 @@
    "key": "V8bGzKqG5cfCcJuKmVruShZa3qQwacDZd4FhxtMhFnA=",
    "name": "Block Images and Videos",
    "version": "0.1",
-    "manifest_version": 2
+   "manifest_version": 2,
+   "permissions": [
+     "contentSettings", "tabs"
+  ],
+   "background": {
+     "scripts": ["background.js"],
+     "persistent": false
+  }
 }
