@@ -1,8 +1,6 @@
 // ==UserScript==
 // @name            Block Images and Videos
 // @description     Block Images and Videos on Steam Store and Community
-// @include         https://store.steampowered.com/*
-// @include         https://steamcommunity.com/*
 // @include         http*://store.steampowered.com/*app/*
 // @include         http*://store.steampowered.com/*explore*
 // @include         http*://store.steampowered.com/*agecheck/app/*

@@ -565,7 +565,7 @@ function tfa(bot){
 $(document).on("click", ".bot_name", function() {
 	let bot = $(this).parent().attr('data-bot-name');
 	let bot_steamID = $(this).parent().attr('data-bot-steamID') || accounts_ASF[bot].s_SteamID;
-	if (event.ctrlKey) {
+	if (event.ctrlKey || user_config.ctr) {
 		$(this).addClass("clicked").delay(4000).queue(function(next){
 			$(this).removeClass("clicked");
 			next();
@@ -590,11 +590,12 @@ $(document).on("click", ".bot_name", function() {
 
 
 		start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\ --profile-directory=" +  bot  +
-			" --window-size=1000,1000 --enable-easy-off-store-extension-install --disk-cache-dir=R:\\TEMP --no-default-browser-check" +
+			" --window-size=1050,1000 --disk-cache-dir=R:\\TEMP --no-default-browser-check" +
 			' --disable-extensions-except="'+ gui.process.cwd()+'\\_data_extensions\\ilbhchfjplnbaphnohgbajieamhekfjf\\0.1_0"' +
-			" steamcommunity.com/profiles/"+bot_steamID);
+			" https://steamcommunity.com/my/badges/");
+			// " steamcommunity.com/profiles/"+bot_steamID);
 		tfa(bot);
-		error(accounts[bot].SteamPassword);
+		// error(accounts[bot].SteamPassword);
 		// setTimeout(function(){ nw.Shell.openExternal("https://store.steampowered.com/promotion/cottage_2018/"); }, 6000);
 	}
 	else{
