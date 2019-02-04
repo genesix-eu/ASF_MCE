@@ -1,0 +1,1 @@
+start .\ASF\ArchiSteamFarm.exe
