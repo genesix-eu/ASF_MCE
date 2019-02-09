@@ -1,83 +1,97 @@
-ASF MCE (Mass Config Editor) is tool to edit multiple value in multiple json files (for https://github.com/JustArchi/ArchiSteamFarm) simply and fast.
-Also it alows you to send IPC commands and shows 2fa codes.
-You can select values which you want to change and you can also select bots (json files) which you want to change or ignore.
 
-How to use this app:
+ASF MCE
 
-![how_to](img/how_to.png)
+ASF MCE (Mass Config Editor) is a tool to edit multiple properties in multiple JSON files of ArchiSteamFarm simply and quickly.
 
-button "Local Bots Config" toggles buttons to edit local bot config files
-You can select values which you want to change ( Enabled, Paused, SteamUserPermissions, GamesPlayedWhileIdlem, SteamMasterClanID, More); only selected (green) values will be changed in your config (bot.json) files. Save button will save changes to config files. Simple values if true is clicked (green) it will be set to true if not (red) it will be set to false. Other text or number values show the examples for input. In More field you can add any other settings (key:value) stored in valid json code like this: {"HandleOfflineMessages":false,"DismissInventoryNotifications":true,"AutoDiscoveryQueue":true} and this keys and values will be added /or updated to selected bots.
+It also allows you to send IPC commands and shows 2FA codes.
 
+Installation
 
-button "Selection" toogles buttons for bot selection: Ignore None / Ignore All, One by One / Range, Range is used in IPC commands;
+You can download pre-installed package or install from source code.
 
+Download release
 
-button "IPC" show IPC toggles inputs: command bots other_arguments
+Download latest release and copy the ASF folder into ASF MCE folder.
 
-
-button "Log" toggles Log
-
-
-You can select accounts which you DON'T WANT to edit by clicking on the name of bot (gray background - will be IGNORED) and account with green background will be SELECTED.  
-
-Also you can see if loaded bots are Enabled, Paused or none of those (in bot.json file) by the color of the bots BORDER (orange:Enabled=false; cadetblue:Enabled=true,Paused=true; green:Enabled=true,Paused=false; aqua:Online)
-
-To get 2fa code (you must have imported: https://github.com/JustArchi/ArchiSteamFarm/wiki/Escrow#import ) double click on bot name and code should be copied to clipboard (also it is shown at the top for 10 sec).
-
-When you hover over bot you can see buttons:
-1. Will open new window in chrome as App with current bot profile on steam and all cache data, session, cookies and passwords will be stored in  "./\_bot_browser_data/botname" so if you log in use name and pass for CLICKED ACCOUNT. If you CTRL+ click it will open new window in nwjs also with data stored in "./\_bot_browser_data/botname".
-
-2. Will send IPC command to start this bot.
-
-3. Will send IPC command to stop this bot.
-
-4. Not implemented yet!
-
-
-REMEMBER TO BACKUP YOUR CONFIG FOLDER TO SAVE LOCATION!
-
-To start ASF MCE execute ASF_MCE.cmd
-
-
-Download it from here: https://github.com/genesix-eu/ASF_MCE/releases/download/v0.0.4/ASF_MCE.zip
-
-
-Or you can :
-
-This is work in progress so some features may not be fully implemented nor tested if you clone this!
+Install from source code
 
 git clone https://github.com/genesix-eu/ASF_MCE
-
 cd ASF_MCE
-
 npm i
 
-copy ASF folder where ASF MCE is
 
 
-File structure should be like this:
+Then copy the ASF folder into ASF MCE folder.
 
-ASF_MCE/ASF/config/bot01.json
+The final folder structure should be like:
 
-ASF_MCE/ASF/ArchiSteamFarm.exe
-
-ASF_MCE/css/*.*
-
-ASF_MCE/img/*.*
-
-ASF_MCE/js/*.*
-
-ASF_MCE/node_modules/*.*
-
-ASF_MCE/index.html
-
-ASF_MCE/package.json
-
-ASF_MCE/*.*
+ASF_MCE/
+├─ ASF/
+│    ├─ config/
+│    │    ├─ bot_01.json
+│    │    └─ ...
+│    ├─ ArchiSteamFarm.exe
+│    └─ ...
+├─ css/
+├─ img/
+├─ js/
+├─ node_modules/
+├─ index.html
+└─ ...
 
 
-Download it from here: https://github.com/genesix-eu/ASF_MCE/releases/download/v0.0.4/ASF_MCE.zip
+
+Usage
+
+Double click ASF_MCE.cmd to start ASF MCE.
+
+￼
+
+Config editing
+• "Local Bots Config" button : toggle properties editing buttons. You can select properties which you want to change (Enabled, Paused, SteamUserPermissions, GamesPlayedWhileIdle, SteamMasterClanID, More); only selected (green) properties will be changed in your config files.
+• "Save" button : save changes to config files.
+
+Remember to backup your config files before editing!
+
+Properties
+• Boolean properties : if it's clicked (green) it will be true, otherwise (red) it will be false.
+• String or number properties : an input dialog will popup.
+• "More" button : you can add any other key-value properties in valid JSON structure like this:
 
 
-And this my first atempt to use git and github so Keep Calm and Git Gud!
+{"OnlineStatus": 1, "IdleRefundableGames": false, "AutoSteamSaleEvent": true}
+
+
+
+Bot selection
+• "Selection" button : toggle bot selection buttons, include Ignore None / Ignore All , One by One / Range . The range selection will be used in IPC commands.
+• Click bot name : toggle given bot selection (selected / ignored).
+
+Ignored bots' config files won't be edited.
+
+Bot cards
+
+Card background:
+• Green : bot is selected.
+• Gray : bot is ignored.
+
+Card border:
+• Orange : bot is disabled.
+• Cadetblue : bot is enabled and paused.
+• Green : bot is enabled.
+• Aqua : bot is online.
+
+Controls:
+• Double click bot name : Copy 2FA code of given bot, you must have imported ASF 2FA . The code will be copied to clipboard and show up 10 seconds.
+• Button 1 : will open a new window in chrome as an app with given bot's steam profile. All cache data, session, cookies and passwords will be stored in "./_data_bots/<botname>" . If you press Ctrl when click, nwjs window will be opened instead of Chrome.
+• Button 2 : start given bot by IPC command.
+• Button 3 : stop given bot by IPC command.
+• Button 4 : not implement yet.
+
+Others
+• "IPC" button : toggle IPC command UI.
+• "Log" button : toggle log UI.
+
+Note
+
+This is my first attempt to use git and GitHub, so Keep Calm and Git Gud!
