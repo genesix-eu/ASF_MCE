@@ -1,0 +1,22 @@
+{"steamAPIKey" : "0000",
+	"no_warnings" : true,
+	"disable_custom_btn" : false,
+	"ctr" : false,
+	"custom_buttons" : [
+		{"idx" : 0,
+		"text" : "P",
+		"info" : "Update your privacy settings.",
+		"action" : 0
+	},
+	{	"idx" : 1,
+		"text" : "G",
+		"info" : "Owned games.",
+		"action" : 1
+	}]
+}
+
+
+
+//Delete this and rename this file to json if u want to use config_personal.
+//Or use these values in config if u don't push changes to github.
+//Purpose of config_personal is to have custom and priva setting without publishing them on github. 

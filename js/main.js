@@ -8,6 +8,21 @@ win.x=0;
 win.y=0;
 
 
+var accounts = {};
+var accounts_ASF = {};
+var accounts_ASF_prev = {};
+var exclude_list = [];
+var include_list = [];
+var local_bot_config = false;
+var ipc_bot_config = false;
+var sel_mode = "obo";
+
+var ipc_valid_commands = ["2fa","2fano","2faok","addlicense","balance","exit","level","loot","loot@","loot^","nickname","owns","pause","play","privacy","redeem","redeem^","restart","resume","stats","start","status","stop","transfer","transfer@","transfer^","unpack","update","version"];
+
+
+var config_dir = process.cwd()+"\\ASF\\config";
+var config_dir_new = process.cwd()+"\\ASF\\config";
+
 
 
 
@@ -24,100 +39,50 @@ if (fs.existsSync(process.cwd()+"\\ASF\\config\\")) {
 	local_bot_config = true;
 }else{
 	local_bot_config = false;
-
 }
 
 
 //var user_config = require(process.cwd()+"\\js\\config.json");
-
-var accounts = {};
-var accounts_ASF = {};
-var accounts_ASF_prev = {};
-var exclude_list = [];
-var include_list = [];
-var local_bot_config = false;
-var ipc_bot_config = false;
-var sel_mode = "obo";
-
-var ipc_valid_commands = ["2fa","2fano","2faok","addlicense","balance","exit","level","loot","loot@","loot^","nickname","owns","pause","play","privacy","redeem","redeem^","restart","resume","stats","start","status","stop","transfer","transfer@","transfer^","unpack","update","version"];
-
-
-var config_dir = process.cwd()+"\\ASF\\config";
-var config_dir_new = process.cwd()+"\\ASF\\config";
-
-jQuery.fn.sortDomElements = (function() {
-	return function(comparator) {
-		return Array.prototype.sort.call(this, comparator).each(function(i) {
-			this.parentNode.appendChild(this);
-		});
-	};
-})();
 
 
 $(document).ready(function(){
 
 	if (user_config.no_warnings === true){
 		hide("warm");
+	}else{
+		setTimeout(function() {
+			hide("warm");
+		}, 4000);
 	}
 
-	setTimeout(function(){ ignore_all(); }, 3000);
-
-	setTimeout(function() {
-		hide("warm");
-	}, 4000);
 
 
 
+	function isJSONfile(item){
+		var ignore = ["ASF.json","example.json","minimal.json"]
+		return (item.indexOf(".json") !== -1 && ignore.indexOf(item) === -1);
+	}
 
 
 
+	var accounts_tmp = fs.readdirSync(config_dir)
+	.filter(isJSONfile).sort();
 
+	accounts_tmp.forEach(load_json_bots);
 
+	function load_json_bots(name){
+		var n = name.indexOf('.');
+		var just_name = name.substring(0, n != -1 ? n : n.length);
+		var ext = name.split('.').pop();
+		var temp_name = config_dir+"\\"+name;
+		accounts[just_name] = require(temp_name);
+	}
 
+	setTimeout(function(){   create_bots('local'); }, 500);
 
-
-
-
-
-
-
-
-	setTimeout(function(){ get_ipc_bots(true); }, 4000);
-
-
-
-
-	fs.readdir(config_dir, function (err, files) {
-		if (err) {
-			error(err);
-			document.getElementById("lbc_l").style.display = "none";
-    // console.log("ASF config folder with bots was not found!");
-}
-
-  // setTimeout(function(){ error("ASF Config Files not Found in ./ASF/config/"); }, 3000);
-  
-
-  if (err) throw err;
-  local_bot_config = true;
-  files.forEach( function (file) {
-  	if (file != undefined){
-  		fs.lstat(config_dir+'\\'+file, function(err, stats) {
-
-  			var n = file.indexOf('.');
-  			var just_name = file.substring(0, n != -1 ? n : n.length);
-  			var ext = file.split('.').pop();
-  			if (ext=='json' && file != "example.json" &&  file != "minimal.json" && file != "ASF.json"){
-  				var temp_name = config_dir+"\\"+file;
-  				accounts[just_name] = require(temp_name);
-
-  			}
-  		});
-  	}
-  });
-
-  setTimeout(function(){   create_bots('local'); }, 500);
-});
-
+//2019
+setTimeout(function(){ ignore_all(); }, 900);
+setTimeout(function(){ get_ipc_bots(true); }, 2000);
 
 
 
@@ -589,12 +554,12 @@ $(document).on("click", ".bot_name", function() {
 //C:\\Users\\JohnnSy\\AppData\\Local\\Google\\Chrome SxS\\Application\\chrome.exe
 
 
-		start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\ --profile-directory=" +  bot  +
-			" --window-size=1050,1000 --disk-cache-dir=R:\\TEMP --no-default-browser-check" +
-			' --disable-extensions-except="'+ gui.process.cwd()+'\\_data_extensions\\ilbhchfjplnbaphnohgbajieamhekfjf\\0.1_0"' +
-			" https://steamcommunity.com/my/badges/");
+start_bot_sett( '"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" --user-data-dir=' + gui.process.cwd()+"\\_data_bots\\ --profile-directory=" +  bot  +
+	" --window-size=1050,1000 --disk-cache-dir=R:\\TEMP --no-default-browser-check" +
+	' --disable-extensions-except="'+ gui.process.cwd()+'\\_data_extensions\\ilbhchfjplnbaphnohgbajieamhekfjf\\0.1_0"' +
+	" https://steamcommunity.com/my/badges/");
 			// " steamcommunity.com/profiles/"+bot_steamID);
-		tfa(bot);
+			tfa(bot);
 		// error(accounts[bot].SteamPassword);
 		// setTimeout(function(){ nw.Shell.openExternal("https://store.steampowered.com/promotion/cottage_2018/"); }, 6000);
 	}
@@ -1257,8 +1222,6 @@ function sel_type(){
 
 
 function create_bots( loaded_from ){
-
-
 	if (loaded_from === "local"){
 		for (var key in accounts) {
 			let steamID =  Object.is(accounts[key].steamID, undefined) ? "" : accounts[key].steamID;
@@ -1310,90 +1273,85 @@ function create_bots( loaded_from ){
 					}
 
 
+
+
 					function get_ipc_bots(warn, update){
 						var xmlhttp = new XMLHttpRequest();
-  // try{
-  	xmlhttp.onreadystatechange = function() {
-  		if (this.readyState == 4 && this.status == 200) {
-  			var res = JSON.parse(this.responseText);
-  			ipc_bot_config = true;
-  			accounts_ASF_prev = accounts_ASF;
-  			accounts_ASF = res.Result;
 
-  			delete accounts_ASF.minimal;
-  			delete accounts_ASF.example;
-     // console.log(accounts_ASF);
-     document.getElementById("asf_app").style.display = "none";
-     if (local_bot_config || update){
-     	for (var key in accounts_ASF) {
-     		if (accounts_ASF[key].IsConnectedAndLoggedOn === true &&  ( key !== "minimal" && key !== "example" )){
-     			if(!$("#bot_" + key).hasClass("bot_ready")){
-     				var element = document.getElementById("bot_" + key);
-     				element.classList.add("bot_ready");
-     				element.style.backgroundImage = "url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg')"
-     			}
-     		}else{
-     			var element = document.getElementById("bot_" + key);
-     			element.classList.remove("bot_ready");
-     		}
+						xmlhttp.onreadystatechange = function() {
+							if (this.readyState == 4 && this.status == 200) {
+								var res = JSON.parse(this.responseText);
+								ipc_bot_config = true;
+								accounts_ASF_prev = accounts_ASF;
+								accounts_ASF = res.Result;
 
-     	}
-      // console.log("UPDATE BOTS!");
-      // console.log("Will check for ASF IPC changes in 15s");
-      setTimeout(function(){ get_ipc_bots(false, true); }, 15000);
+								delete accounts_ASF.minimal;
+								delete accounts_ASF.example;
 
-  }
-  else{
-  	for (var key in accounts_ASF) {
-  		if (accounts_ASF[key].IsConnectedAndLoggedOn === false &&  ( key !== "minimal" && key !== "example" )){$('div#content').append(
-  			'<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="bot bot_dissabled" id="bot_'+key+'">'+
-  			'<span class="bot_name"> '+ key +' </span>'+
-  			'<span class="bot_sett bot_action"> &#x27B2; </span>'+
-  			'<span class="start bot_action"> &#9658; </span>'+
-  			'<span class="stop bot_action"> &#9724; </span>'+
-  			'<span class="level bot_action">' + "!" + '</span>'+
+								document.getElementById("asf_app").style.display = "none";
+								if (local_bot_config || update){
+									for (var key in accounts_ASF) {
+										if (accounts_ASF[key].IsConnectedAndLoggedOn === true){
+											var element = document.getElementById("bot_" + key);
+											element.classList.add("bot_ready");
+											element.style.backgroundImage = "url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg')"
+										}else{
+											var element = document.getElementById("bot_" + key);
+											element.classList.remove("bot_ready");
+										}
+									}
+								}
+								else{
+									for (var key in accounts_ASF) {
+										if (accounts_ASF[key].IsConnectedAndLoggedOn === false){$('div#content').append(
+											'<span data-bot-name="'+key+'" data-bot-steamID="'+key.s_SteamID+'" class="bot bot_dissabled" id="bot_'+key+'">'+
+											'<span class="bot_name"> '+ key +' </span>'+
+											'<span class="bot_sett bot_action"> &#x27B2; </span>'+
+											'<span class="start bot_action"> &#9658; </span>'+
+											'<span class="stop bot_action"> &#9724; </span>'+
+											'<span class="level bot_action">' + "!" + '</span>'+
 
 
 
-  			'</span>');}
-  			else if (key !== "minimal" && key !== "example" ){$(
-  				'div#content').append('<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="bot bot_ready" id="bot_'+key+'" style="' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); " + '"">'+
-  				'<span class="bot_name"> '+ key +' </span>'+
-  				'<span class="bot_sett bot_action"> &#x27B2; </span>'+
-  				'<span class="start bot_action"> &#9658; </span>'+
-  				'<span class="stop bot_action"> &#9724; </span>'+
-  				'<span class="level bot_action">' +  "!" + '</span>'+
+											'</span>');}
+											else {$('div#content').append(
+												'<span data-bot-name="'+key+'" data-bot-steamID="'+accounts_ASF[key].s_SteamID+'"  class="bot bot_ready" id="bot_'+key+'" style="' + "background-image: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/" + accounts_ASF[key].AvatarHash + "_full.jpg'); " + '"">'+
+												'<span class="bot_name"> '+ key +' </span>'+
+												'<span class="bot_sett bot_action"> &#x27B2; </span>'+
+												'<span class="start bot_action"> &#9658; </span>'+
+												'<span class="stop bot_action"> &#9724; </span>'+
+												'<span class="level bot_action">' +  "!" + '</span>'+
 
-  				'</span>');}
-  			}
-  			setTimeout(function(){ get_ipc_bots(false,true); }, 15000);
-  		}
+												'</span>');}
+										}
+									setTimeout(function(){ get_ipc_bots(false,true); }, 15000);
+								}
 
-  	}
-  };
-  xmlhttp.onerror = function(e){
-  	if (warn===true) {error("ASF not running or ASF IPC is inaccessible!");}
-  	setTimeout(function(){ get_ipc_bots(false); }, 30000);
-  	console.log("Will check for ASF IPC in 30s");
-  	ipc_bot_config = false;
-  };
-  xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
-  xmlhttp.send();
+							}
+						};
+						xmlhttp.onerror = function(e){
+							if (warn===true) {error("ASF not running or ASF IPC is inaccessible!");}
+							setTimeout(function(){ get_ipc_bots(false); }, 30000);
+							console.log("Will check for ASF IPC in 30s");
+							ipc_bot_config = false;
+						};
+						xmlhttp.open("GET", "http://127.0.0.1:1242/Api/Bot/ASF", true);
+						xmlhttp.send();
 
-}
-
-
-function mini_full(){
-	let my_link = "pikatchu";
-
-	if (user_config.custom_buttons && user_config.custom_buttons.length > 0){ my_link = "css/blank.css"; }
-	else{ my_link = "css/midi.css";}
-
-	if(user_config.disable_custom_btn ===  true){my_link = "css/midi.css";}
+					}
 
 
-	let my_id = document.getElementById("after_css");
-	if ( my_id.href.indexOf(my_link) >= 0 ){ my_id.href = "css/mini.css";}
-	else{ my_id.href = my_link;}
+					function mini_full(){
+						let my_link = "pikatchu";
 
-}
+						if (user_config.custom_buttons && user_config.custom_buttons.length > 0){ my_link = "css/blank.css"; }
+						else{ my_link = "css/midi.css";}
+
+						if(user_config.disable_custom_btn ===  true){my_link = "css/midi.css";}
+
+
+						let my_id = document.getElementById("after_css");
+						if ( my_id.href.indexOf(my_link) >= 0 ){ my_id.href = "css/mini.css";}
+						else{ my_id.href = my_link;}
+
+					}
